@@ -60,6 +60,10 @@ tPosL findItem (tProjectName n, tList *L) {
   } return LNULL;
 }
 
+void updateItem(tItemL d, tPosL p, tList *L) {
+  L -> data[p] = d;
+}
+
 bool insertItem (tItemL d, tPosL p, tList *L) {
 
   /*

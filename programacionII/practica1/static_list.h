@@ -10,9 +10,10 @@
 #ifndef STATIC_LIST_H
 #define STATIC_LIST_H
 
+#include <stdbool.h>
 #include "types.h"
 
-#define NULL 
+#define LNULL -1
 #define MAX 1000
 
 typedef int tItemL;
@@ -25,27 +26,27 @@ typedef struct {
 // Función que crea una lista vacía, 
 // y otra función que devuelve si una lista
 // esta vacía o no
-tList createEmptyList (tList *L);
-bool isEmptyList (tList L);
+void createEmptyList (tList *L);
+bool isEmptyList (tList *L);
 
 // Funciones que sirven para 
 // moverse por la lista, obtener posiciones
 // siguientes, anteriores y primera o última posición
-tPosL first (tList L);
-tPosL last (tList L);
-tPosL next (tPosL p, tList L);
-tPosL previous (tPosL p, tList L);
+tPosL first (tList *L);
+tPosL last (tList *L);
+tPosL next (tPosL p, tList *L);
+tPosL previous (tPosL p, tList *L);
 
 // Funciones que modifican la lista, añaden, eliminan
 // o actualizan un elemento de la lista
 bool insertItem (tItemL d, tPosL p, tList *L);
-tList deleteAtPosition (tPosL p, tList *L);
-tList updateItem (tItemL d, tPosL p, tList *L);
+void deleteAtPosition (tPosL p, tList *L);
+void updateItem (tItemL d, tPosL p, tList *L);
 
 // Funciones que se encargan de devolver 
 // items o su posición en la lista
 // (no modifican la lista)
-tItemL getItem (tPosL p, tList L);
-tPosL findItem (tProjectName n, tList L);
+tItemL getItem (tPosL p, tList *L);
+tPosL findItem (tProjectName n, tList *L);
 
 #endif

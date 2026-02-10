@@ -33,3 +33,30 @@ void createEmptyList (tList *L) {
 bool isEmptyList (tList *L) {
   return (L -> lastPos == LNULL);
 }
+
+tPosL first (tList *L) {
+  return 0;
+}
+
+tPosL last (tList *L) {
+  return (L -> lastPos);
+}
+
+tPosL next (tPosL p, tList *L) {
+  return (p == last(L)) ? LNULL : p+1;
+}
+
+tPosL previous (tPosL p, tList *L) {
+  return (p == 0) ? LNULL : p-1;
+}
+
+bool insertItem (tItemL d, tPosL p, tList *L) {
+
+  /*
+  if (p == LNULL) {
+    L -> data[last(L)] = d;
+    L -> lastPos+1;
+  }
+  */
+
+}

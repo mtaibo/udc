@@ -50,6 +50,16 @@ tPosL previous (tPosL p, tList *L) {
   return (p == 0) ? LNULL : p-1;
 }
 
+tItemL getItem (tPosL p, tList *L) {
+  return L -> data[p];
+}
+
+tPosL findItem (tProjectName n, tList *L) {
+  for (int i = first(L); i != LNULL; i = next(i, L)) {
+    if (getItem(i, L) == n) return i;
+  } return LNULL;
+}
+
 bool insertItem (tItemL d, tPosL p, tList *L) {
 
   /*

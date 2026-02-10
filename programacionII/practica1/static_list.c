@@ -56,7 +56,7 @@ tItemL getItem (tPosL p, tList *L) {
 
 tPosL findItem (tProjectName n, tList *L) {
   for (int i = first(L); i != LNULL; i = next(i, L)) {
-    if (getItem(i, L) == n) return i;
+    if (strcmp(getItem(i, L).projectName, n) == 0) return i;
   } return LNULL;
 }
 

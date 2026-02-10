@@ -10,18 +10,7 @@
 #ifndef STATIC_LIST_H
 #define STATIC_LIST_H
 
-#include <stdbool.h>
 #include "types.h"
-
-#define LNULL -1
-#define MAX 1000
-
-typedef int tItemL;
-typedef int tPosL;
-typedef struct {
-    tItemL data[MAX];
-    tPosL lastPos;
-} tList;
 
 // Función que crea una lista vacía, 
 // y otra función que devuelve si una lista

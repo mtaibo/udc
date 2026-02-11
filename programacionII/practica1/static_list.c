@@ -55,7 +55,7 @@ tItemL getItem (tPosL p, tList *L) {
 }
 
 tPosL findItem (tProjectName n, tList *L) {
-  for (int i = first(L); i != LNULL; i = next(i, L)) {
+  for (tPosL i = first(L); i != LNULL; i = next(i, L)) {
     if (strcmp(getItem(i, L).projectName, n) == 0) return i;
   } return LNULL;
 }
@@ -64,13 +64,23 @@ void updateItem(tItemL d, tPosL p, tList *L) {
   L -> data[p] = d;
 }
 
+void deleteAtPosition (tPosL p, tList *L) {
+  for (tPosL i = p; i < last(L); i++) {
+    L -> data[i] = L -> data[i+1];
+  } L -> lastPos -= 1;
+}
+
 bool insertItem (tItemL d, tPosL p, tList *L) {
 
-  /*
-  if (p == LNULL) {
-    L -> data[last(L)] = d;
-    L -> lastPos+1;
-  }
-  */
+  if (last(L) == MAX - 1) return false;
 
+  if (p == LNULL) {
+    L -> data[last(L)+1] = d;
+    L -> lastPos += 1;
+    return true;
+  }
+
+  for (tPosL i = last(L); i >= p; i--) {
+    L -> data[i+1] = L -> data[i]; 
+  } L -> data[p] = d; L -> lastPos += 1; return true;
 }

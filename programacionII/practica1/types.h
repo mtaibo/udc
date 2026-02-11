@@ -6,6 +6,7 @@
 #define MAX 25
 
 #include <stdbool.h>
+#include <string.h>
 
 typedef char tProjectName[NAME_LENGTH_LIMIT];
 typedef int tNumVotes;

@@ -65,7 +65,7 @@ void updateItem(tItemL d, tPosL p, tList *L) {
 }
 
 void deleteAtPosition (tPosL p, tList *L) {
-  tPosL lastPos = last(L);
+  tPosL lastPos = last(*L);
   for (tPosL i = p; i < lastPos; i++) {
     L -> data[i] = L -> data[i+1];
   } L -> lastPos -= 1;
@@ -73,15 +73,15 @@ void deleteAtPosition (tPosL p, tList *L) {
 
 bool insertItem (tItemL d, tPosL p, tList *L) {
 
-  if (last(L) == MAX - 1) return false;
+  if (last(*L) == MAX - 1) return false;
 
   if (p == LNULL) {
-    L -> data[last(L)+1] = d;
+    L -> data[last(*L)+1] = d;
     L -> lastPos += 1;
     return true;
   }
 
-  for (tPosL i = last(L); i >= p; i--) {
+  for (tPosL i = last(*L); i >= p; i--) {
     L -> data[i+1] = L -> data[i]; 
   } L -> data[p] = d; L -> lastPos += 1; return true;
 }

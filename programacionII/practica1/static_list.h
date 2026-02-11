@@ -16,15 +16,15 @@
 // y otra función que devuelve si una lista
 // esta vacía o no
 void createEmptyList (tList *L);
-bool isEmptyList (tList *L);
+bool isEmptyList (tList L);
 
 // Funciones que sirven para 
 // moverse por la lista, obtener posiciones
 // siguientes, anteriores y primera o última posición
-tPosL first (tList *L);
-tPosL last (tList *L);
-tPosL next (tPosL p, tList *L);
-tPosL previous (tPosL p, tList *L);
+tPosL first (tList L);
+tPosL last (tList L);
+tPosL next (tPosL p, tList L);
+tPosL previous (tPosL p, tList L);
 
 // Funciones que modifican la lista, añaden, eliminan
 // o actualizan un elemento de la lista
@@ -35,7 +35,7 @@ void updateItem (tItemL d, tPosL p, tList *L);
 // Funciones que se encargan de devolver 
 // items o su posición en la lista
 // (no modifican la lista)
-tItemL getItem (tPosL p, tList *L);
-tPosL findItem (tProjectName n, tList *L);
+tItemL getItem (tPosL p, tList L);
+tPosL findItem (tProjectName n, tList L);
 
 #endif

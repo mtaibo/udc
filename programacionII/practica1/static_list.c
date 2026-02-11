@@ -30,31 +30,31 @@ void createEmptyList (tList *L) {
   L -> lastPos = LNULL; // Con esta flecha estamos haciendo (*L).lastPos
 }
 
-bool isEmptyList (tList *L) {
-  return (L -> lastPos == LNULL);
+bool isEmptyList (tList L) {
+  return (L.lastPos == LNULL);
 }
 
-tPosL first (tList *L) {
+tPosL first (tList L) {
   return 0;
 }
 
-tPosL last (tList *L) {
-  return (L -> lastPos);
+tPosL last (tList L) {
+  return (L.lastPos);
 }
 
-tPosL next (tPosL p, tList *L) {
+tPosL next (tPosL p, tList L) {
   return (p == last(L)) ? LNULL : p+1;
 }
 
-tPosL previous (tPosL p, tList *L) {
+tPosL previous (tPosL p, tList L) {
   return (p == 0) ? LNULL : p-1;
 }
 
-tItemL getItem (tPosL p, tList *L) {
-  return L -> data[p];
+tItemL getItem (tPosL p, tList L) {
+  return L.data[p];
 }
 
-tPosL findItem (tProjectName n, tList *L) {
+tPosL findItem (tProjectName n, tList L) {
   for (tPosL i = first(L); i != LNULL; i = next(i, L)) {
     if (strcmp(getItem(i, L).projectName, n) == 0) return i;
   } return LNULL;
@@ -65,7 +65,8 @@ void updateItem(tItemL d, tPosL p, tList *L) {
 }
 
 void deleteAtPosition (tPosL p, tList *L) {
-  for (tPosL i = p; i < last(L); i++) {
+  tPosL lastPos = last(L);
+  for (tPosL i = p; i < lastPos; i++) {
     L -> data[i] = L -> data[i+1];
   } L -> lastPos -= 1;
 }

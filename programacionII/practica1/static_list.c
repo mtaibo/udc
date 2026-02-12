@@ -1,9 +1,9 @@
 /*
  * TITLE: PROGRAMMING II LABS
  * SUBTITLE: Practical 1
- * AUTHOR 1: ***************************** LOGIN 1: **********
- * AUTHOR 2: ***************************** LOGIN 2: **********
- * GROUP: *.*
+ * AUTHOR 1: Miguel Taibo Pérez LOGIN 1: **********
+ * AUTHOR 2: Marcos Estévez Besada LOGIN 2: **********
+ * GROUP: 2.1
  * DATE: ** / ** / **
  */
 

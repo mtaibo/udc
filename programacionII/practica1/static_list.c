@@ -42,8 +42,8 @@ tItemL getItem (tPosL p, tList L) {
 
 tPosL findItem (tProjectName n, tList L) {
   for (tPosL i = first(L); i != LNULL; i = next(i, L)) {
-    if (strcmp(getItem(i, L).projectName, n) == 0) return i;
-  } return LNULL;
+    return (strcmp(getItem(i,L).projectName, n) == 0) ? i : LNULL;
+  }
 }
 
 void updateItem(tItemL d, tPosL p, tList *L) {

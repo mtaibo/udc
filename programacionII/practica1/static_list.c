@@ -42,8 +42,8 @@ tItemL getItem (tPosL p, tList L) {
 
 tPosL findItem (tProjectName n, tList L) {
   for (tPosL i = first(L); i != LNULL; i = next(i, L)) {
-    return (strcmp(getItem(i,L).projectName, n) == 0) ? i : LNULL;
-  }
+    if (strcmp(getItem(i,L).projectName, n) == 0) return i;
+  } return LNULL;
 }
 
 void updateItem(tItemL d, tPosL p, tList *L) {
@@ -71,3 +71,4 @@ bool insertItem (tItemL d, tPosL p, tList *L) {
     L -> data[i+1] = L -> data[i]; 
   } L -> data[p] = d; L -> lastPos += 1; return true;
 }
+

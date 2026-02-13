@@ -49,4 +49,4 @@ void updateItem (tItemL d, tPosL p, tList *L);
 tItemL getItem (tPosL p, tList L);
 tPosL findItem (tProjectName n, tList L);
 
-#endif
+#endif // STATIC_LIST_H

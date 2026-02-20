@@ -9,8 +9,34 @@
 
 #include "dynamic_list.h"
 
+// Hecho en clase
 void createEmptyList (tList *L) {
   *L = LNULL;
+}
+
+bool isEmptyList (tList L) {
+  return L == LNULL;
+}
+
+tPosL first (tList L) {
+  return L; // Devuelve la propia lista como posición ya que L es un tPosL al primer elemento
+}
+
+tPosL next (tPosL p, tList L) {
+  return p -> next;
+}
+
+tPosL last (tList L) {
+  tPosL p = first(L); // Empezar a recorrer la lista desde el primer elemento
+  while (next(p, L) != LNULL) {p = next(p, L);} // Mientras la siguiente posición no sea LNULL, seguir avanzando por la lista
+  return p; // Cuando la posición siguiente a la del nodo actual sea LNULL, ese será el último elemento de la lista
+}
+
+tPosL previous (tPosL p, tList L) {
+  tPosL q = first(L);
+  if (q == p) return LNULL;
+  while (next(q, L) != p) {q = next(q, L);}
+  return q;
 }
 
 bool createNode(tPosL *p) {

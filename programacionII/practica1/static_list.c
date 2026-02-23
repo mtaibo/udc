@@ -4,7 +4,7 @@
  * AUTHOR 1: Miguel Taibo Pérez LOGIN 1: miguel.taibo.perez@udc.es
  * AUTHOR 2: Marcos Estévez Besada LOGIN 2: marcos.estevez1@udc.es
  * GROUP: 2.1
- * DATE: ** / 02 / 26
+ * DATE: 23 / 02 / 26
  */
 
 #include "static_list.h"
@@ -125,7 +125,7 @@ void deleteAtPosition (tPosL p, tList *L) {
 //
 // Para prevenir un acceso al array en una posición no existente, antes de nada
 // se comprueba si la lastPos de la lista ya es el máximo permitido y no se puede
-// añadir ningún elemento más a la lista por defecto de espacio en memoria.
+// añadir ningún elemento más a la lista por falta de espacio en memoria.
 //
 // La posición p que recibe esa función será una posición válida en L como precondición,
 // y las posiciones de los elementos posteriores a p en la lista pueden verse modificados.

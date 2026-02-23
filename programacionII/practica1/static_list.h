@@ -4,13 +4,13 @@
  * AUTHOR 1: Miguel Taibo Pérez LOGIN 1: miguel.taibo.perez@udc.es
  * AUTHOR 2: Marcos Estévez Besada LOGIN 2: marcos.estevez1@udc.es
  * GROUP: 2.1
- * DATE: ** / 02 / 26
+ * DATE: 23 / 02 / 26
  */
 
 #ifndef STATIC_LIST_H
 #define STATIC_LIST_H
 
-// Definción del valor nulo de la lista,
+// Definición del valor nulo de la lista,
 // pudiendo ser este <0 o >25. Además del
 // tamaño máximo del array de las listas.
 #define LNULL -1

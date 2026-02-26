@@ -44,7 +44,30 @@ bool createNode(tPosL *p) {
   return *p != NULL;
 }
 
+void deleteAtPosition (tPosL p, tLast *L) {
+
+  tPosL q;
+
+  if (p == *L) { // Eliminamos el primer nodo
+    *L = (*L) -> next;
+  }
+  else if (p -> next == LNULL) { // Eliminar último nodo
+    for (q = *L; q->next != p; q = q->next) {
+      q -> next = LNULL;
+    }
+  }
+  else { // Eliminar nodo intermedio
+    q = p -> next;
+    p -> data = q -> data;
+    p -> next = q -> next;
+    p = q; // Para que free(p) elimine el nodo correcto
+  }
+
+  free(p);
+}
+
 bool insertItem (tItemL d, tPosL p, tList *L) {
+
   tPosL q, r;
 
   // Si no se ha podido crear un nuevo nodo de la lista,
@@ -54,6 +77,22 @@ bool insertItem (tItemL d, tPosL p, tList *L) {
   q -> data = d;
   q -> next = LNULL;
 
-  if (*L == LNULL) *L = q; // Si la lista está vacía
-  else if (p == LNULL) // Si se quiere insertar al final
+  if (isEmptyList(L)) *L = q; // Inserción en una lista vacía
+  else if (p == LNULL) { // Inserción en el final de la lista
+    for (r = *L; r -> next != LNULL; r = r -> next) {
+      r -> next = q;
+    }
+  }
+  else if () { // Inserción al principio de la lista
+    q -> next = p;
+    *L = q;
+  }
+  else if () { // Insertar en una posición intermedia
+    q -> data = p -> data;
+    p -> data = d;
+    q -> next = p -> next;
+    p -> next = q;
+  }
+
+  return true;
 }

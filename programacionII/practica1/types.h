@@ -15,4 +15,4 @@ typedef struct tItemL {
     tProjectEco projectEco;
 } tItemL;
 
-#endif //PRO2_2026_P1_TYPES_H
+#endif  // PRO2_2026_P1_TYPES_H

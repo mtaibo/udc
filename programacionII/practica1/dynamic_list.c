@@ -9,7 +9,7 @@
 
 #include "dynamic_list.h"
 
-void createEmptyList(tList* L) {
+void createEmptyList(tList *L) {
     *L = LNULL;
 }
 
@@ -52,16 +52,16 @@ tItemL getItem(tPosL p, tList L) {
     return p->data;
 }
 
-bool createNode(tPosL* p) {
+bool createNode(tPosL *p) {
     *p = malloc(sizeof(struct tNode));
     return *p != NULL;
 }
 
-void updateItem(tItemL d, tPosL p, tList* L) {
+void updateItem(tItemL d, tPosL p, tList *L) {
     p->data = d;
 }
 
-void deleteAtPosition(tPosL p, tList* L) {
+void deleteAtPosition(tPosL p, tList *L) {
     tPosL q;
 
     if (p == *L) {  // Eliminamos el primer nodo
@@ -79,7 +79,7 @@ void deleteAtPosition(tPosL p, tList* L) {
     free(p);
 }
 
-bool insertItem(tItemL d, tPosL p, tList* L) {
+bool insertItem(tItemL d, tPosL p, tList *L) {
     tPosL q, r;
 
     // Si no se ha podido crear un nuevo nodo de la lista,

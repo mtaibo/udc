@@ -18,7 +18,7 @@
 
 #include "types.h"
 
-typedef struct tNode* tPosL;
+typedef struct tNode *tPosL;
 typedef tPosL tList;
 
 typedef struct tNode {
@@ -26,7 +26,7 @@ typedef struct tNode {
     tPosL next;
 } tNode;
 
-void createEmptyList(tList* L);
+void createEmptyList(tList *L);
 bool isEmptyList(tList L);
 
 tPosL first(tList L);
@@ -36,9 +36,9 @@ tPosL previous(tPosL p, tList L);
 
 bool createNode(tPosL* P);
 
-bool insertItem(tItemL d, tPosL p, tList* L);
-void deleteAtPosition(tPosL p, tList* L);
-void updateItem(tItemL d, tPosL p, tList* L);
+bool insertItem(tItemL d, tPosL p, tList *L);
+void deleteAtPosition(tPosL p, tList *L);
+void updateItem(tItemL d, tPosL p, tList *L);
 
 tItemL getItem(tPosL p, tList L);
 tPosL findItem(tProjectName n, tList L);

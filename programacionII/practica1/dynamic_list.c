@@ -9,7 +9,6 @@
 
 #include "dynamic_list.h"
 
-// Hecho en clase
 void createEmptyList (tList *L) {
   *L = LNULL;
 }
@@ -39,12 +38,26 @@ tPosL previous (tPosL p, tList L) {
   return q;
 }
 
+tPosL findItem(tProjectName n, tList L) {
+  tPosL p;
+  for (p = L; (p!=LNULL)&&(strcmp(p->data.projectName, n) != 0); p=next(p,L));
+  return p;
+}
+
+tItemL getItem(tPosL p, tList L) {
+  return p->data;
+}
+
 bool createNode(tPosL *p) {
   *p = malloc(sizeof(struct tNode));
   return *p != NULL;
 }
 
-void deleteAtPosition (tPosL p, tLast *L) {
+void updateItem (tItemL d, tPosL p, tList *L) {
+  p -> data = d;
+}
+
+void deleteAtPosition (tPosL p, tList *L) {
 
   tPosL q;
 
@@ -52,9 +65,8 @@ void deleteAtPosition (tPosL p, tLast *L) {
     *L = (*L) -> next;
   }
   else if (p -> next == LNULL) { // Eliminar último nodo
-    for (q = *L; q->next != p; q = q->next) {
-      q -> next = LNULL;
-    }
+    for (q = *L; q->next != p; q = q->next);
+    q -> next = LNULL;
   }
   else { // Eliminar nodo intermedio
     q = p -> next;
@@ -77,17 +89,16 @@ bool insertItem (tItemL d, tPosL p, tList *L) {
   q -> data = d;
   q -> next = LNULL;
 
-  if (isEmptyList(L)) *L = q; // Inserción en una lista vacía
+  if (isEmptyList(*L)) *L = q; // Inserción en una lista vacía
   else if (p == LNULL) { // Inserción en el final de la lista
-    for (r = *L; r -> next != LNULL; r = r -> next) {
-      r -> next = q;
-    }
+    for (r = *L; r -> next != LNULL; r = r -> next);
+    r -> next = q;
   }
-  else if () { // Inserción al principio de la lista
+  else if (p==*L) { // Inserción al principio de la lista
     q -> next = p;
     *L = q;
   }
-  else if () { // Insertar en una posición intermedia
+  else { // Insertar en una posición intermedia
     q -> data = p -> data;
     p -> data = d;
     q -> next = p -> next;

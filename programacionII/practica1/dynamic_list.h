@@ -13,12 +13,15 @@
 #define LNULL NULL
 
 #include "types.h"
+#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct tNode* tPosL;
 typedef tPosL tList;
 
 typedef struct tNode {
-  iItemL data;
+  tItemL data;
   tPosL next;
 } tNode;
 

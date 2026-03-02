@@ -11,6 +11,7 @@
 #define STATIC_LIST_H
 
 #include <string.h> /* Librería que incluye el strcmp() para comparar nombres de proyectos. */
+
 #include "types.h"
 
 /* Definición de constantes */

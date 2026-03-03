@@ -54,48 +54,50 @@ void updateItem(tItemL d, tPosL p, tList* L) {
     p->data = d;
 }
 
-void deleteAtPosition(tPosL p, tList* L) {
+void deleteAtPosition(tPosL p, tList *L) {
 
-    /* En este caso empleamos unas instrucciones poco eficientes
-     * ya que la complejidad de implementación es mucho menor y
-     * deja un código mucho más sencillo de leer mientras que la 
-     * eficiencia que se pierde con un máximo de 25 elementos es ínfima.
-     */
+    tPosL q; // q : Posición auxiliar para eliminar items.
 
-    /* Para el primer elemento es diferente que para el resto */
-    if (p == first(*L)) *L = next(p, *L); // El primer elemento de la lista será ahora el segundo.
-    else previous(p, *L) -> next = next(p, *L); // Posición a eliminar es una intermedia
+    if (p == *L) *L = next(p, *L); // Eliminamos el primer nodo
 
-    free(p); // Liberar la memoria que se encontraba en el nodo de p.
+    else if (next(p, *L) == LNULL) {  // Eliminar último nodo
+
+        for (q = *L; next(q, *L) != p; q = next(q, *L));
+        q->next = LNULL;
+
+    } else {  // Eliminar nodo intermedio
+
+        q = next(p, *L); // q : Puntero al elemento que se va a copiar en p y se eliminará.
+        p->next = next(q, *L);
+        updateItem(getItem(q, *L), p, *L);
+
+        p = q;  // Para que free(p) elimine el nodo correcto
+    }
+
+    free(p);
 }
 
-bool insertItem(tItemL d, tPosL p, tList* L) {
-
-    /* En este caso empleamos unas instrucciones poco eficientes
-     * ya que la complejidad de implementación es mucho menor y
-     * deja un código mucho más sencillo de leer mientras que la 
-     * eficiencia que se pierde con un máximo de 25 elementos es ínfima.
-     */
+bool insertItem(tItemL d, tPosL p, tList *L) {
 
     tPosL q;
 
-    /* Creación del nuevo elemento que se va a insertar en la lista */
+    // Si no se ha podido crear un nuevo nodo de la lista,
+    // no se podrá insertar un nuevo elemento
     if ((q = malloc(sizeof(struct tNode))) == NULL ) return false;
 
-    /* Insertar los datos dentro del nuevo elemento */
     q->data = d;
     q->next = LNULL;
 
     if (isEmptyList(*L)) *L = q; // Inserción en una lista vacía
     else if (p == LNULL) last(*L) -> next = q; // Inserción en el final de la lista
 
-    else if (p == *L) {  // Inserción al principio de la lista
-        q->next = p;
-        *L = q;
+    else {  // Insertar en una posición intermedia
 
-    } else {  // Insertar en una posición intermedia
-        previous(p, *L) -> next = q;
-        q -> next = p;
+        q->data = getItem(p, *L);
+        q->next = next(p, *L);
+        updateItem(d, p, *L);
+
+        p->next = q;
     }
 
     return true;

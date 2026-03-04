@@ -69,7 +69,7 @@ void deleteAtPosition(tPosL p, tList *L) {
 
         q = next(p, *L); // q : Puntero al elemento que se va a copiar en p y se eliminará.
         p->next = next(q, *L);
-        updateItem(getItem(q, *L), p, *L);
+        updateItem(getItem(q, *L), p, L);
 
         p = q;  // Para que free(p) elimine el nodo correcto
     }
@@ -95,7 +95,7 @@ bool insertItem(tItemL d, tPosL p, tList *L) {
 
         q->data = getItem(p, *L);
         q->next = next(p, *L);
-        updateItem(d, p, *L);
+        updateItem(d, p, L);
 
         p->next = q;
     }

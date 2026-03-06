@@ -32,17 +32,15 @@ tPosL last(tList L) {
 }
 
 tPosL previous(tPosL p, tList L) {
-
-    if (p == L) return LNULL; // El primer elemento no tiene elemento anterior.
-
     tPosL q; // q: Variable para recorrer las posiciones de la lista.
+    if (p == L) return LNULL; // El primer elemento no tiene elemento anterior.
     for (q = first(L); next(q, L) != p; q = next(q, L)); // Bucle que recorre la lista con q hasta que el siguiente elemento sea p.
     return q;
 }
 
 tPosL findItem(tProjectName n, tList L) {
     tPosL p;
-    for (p = L; (p != LNULL) && (strcmp(p->data.projectName, n) != 0); p = next(p, L));
+    for (p = L; (p != LNULL) && (strcmp(p->data.projectName, n) != 0); p = next(p, L)); // Bucle que recorre la lista con p hasta que los nombres son iguales.
     return p;
 }
 
@@ -57,16 +55,13 @@ void updateItem(tItemL d, tPosL p, tList* L) {
 void deleteAtPosition(tPosL p, tList *L) {
 
     tPosL q; // q : Posición auxiliar para eliminar items.
-
     if (p == *L) *L = next(p, *L); // Eliminamos el primer nodo
-
     else if (next(p, *L) == LNULL) {  // Eliminar último nodo
 
         for (q = *L; next(q, *L) != p; q = next(q, *L));
         q->next = LNULL;
 
     } else {  // Eliminar nodo intermedio
-
         q = next(p, *L); // q : Puntero al elemento que se va a copiar en p y se eliminará.
         p->next = next(q, *L);
         updateItem(getItem(q, *L), p, L);
@@ -92,7 +87,6 @@ bool insertItem(tItemL d, tPosL p, tList *L) {
     else if (p == LNULL) last(*L) -> next = q; // Inserción en el final de la lista
 
     else {  // Insertar en una posición intermedia
-
         q->data = getItem(p, *L);
         q->next = next(p, *L);
         updateItem(d, p, L);

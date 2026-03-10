@@ -15,8 +15,6 @@
 
 #define MAX_BUFFER 255
 
-#define DYNAMIC_LIST
-
 #ifdef DYNAMIC_LIST
 #include "dynamic_list.h"
 #endif
@@ -29,9 +27,19 @@ int nullVotes = 0;
 int totalVotes = 0;
 
 void processCommand(char* commandNumber, char command, char* param1, char* param2) {
+
+    printf("********************\n");
+
     switch (command) {
 
         case 'N': {
+
+            printf("%s %s: project %s category %s\n",
+                commandNumber,
+                command,
+                param1,
+                param2
+            );
 
             tItemL newItem;
 
@@ -46,6 +54,12 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
         }
 
         case 'V': {
+
+            printf("%s %s: project %s\n",
+                commandNumber,
+                command,
+                param1
+            );
 
             tPosL itemPos;
             tItemL item;
@@ -73,6 +87,12 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
 
         case 'D': {
 
+            printf("%s %s: project %s\n",
+                commandNumber,
+                command,
+                param1
+            );
+
             tPosL itemPos;
             tItemL item;
 
@@ -97,6 +117,12 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
         }
 
         case 'S': {
+
+            printf("%s %s: totalevaluators %s\n",
+                commandNumber,
+                command,
+                param1
+            );
 
             tItemL item;
 

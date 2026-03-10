@@ -34,7 +34,7 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
 
         case 'N': {
 
-            printf("%s %s: project %s category %s\n",
+            printf("%s %c: project %s category %s\n",
                 commandNumber,
                 command,
                 param1,
@@ -47,15 +47,15 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
             newItem.numVotes = 0;
             newItem.projectEco = (strcmp(param2, "eco") == 0);
 
-            printf("* New: project %s category %s\n", param1, param2);
             if (!insertItem(newItem, LNULL, &L)) printf("+ Error: New not possible\n");
+            else printf("* New: project %s category %s\n", param1, param2);
 
             break;
         }
 
         case 'V': {
 
-            printf("%s %s: project %s\n",
+            printf("%s %c: project %s\n",
                 commandNumber,
                 command,
                 param1
@@ -87,7 +87,7 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
 
         case 'D': {
 
-            printf("%s %s: project %s\n",
+            printf("%s %c: project %s\n",
                 commandNumber,
                 command,
                 param1
@@ -118,7 +118,7 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
 
         case 'S': {
 
-            printf("%s %s: totalevaluators %s\n",
+            printf("%s %c: totalevaluators %s\n",
                 commandNumber,
                 command,
                 param1
@@ -145,7 +145,7 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
             printf("Participation: %d votes from %s evaluators (%.2f%%)\n",
                 totalVotes,
                 param1,
-                (atoi(param1) == 0) ? 0.0: ((float) totalVotes / atoi(param1)) * 100
+                (atoi(param1) == 0) ? 0.0: ((float) (totalVotes + nullVotes) / atoi(param1)) * 100
             );
 
             break;

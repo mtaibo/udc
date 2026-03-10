@@ -47,7 +47,8 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
             newItem.numVotes = 0;
             newItem.projectEco = (strcmp(param2, "eco") == 0);
 
-            if (!insertItem(newItem, LNULL, &L)) printf("+ Error: New not possible\n");
+            if (!isEmptyList(L) && (findItem(newItem.projectName, L) != LNULL)) {printf("+ Error: New not possible\n"); break;}
+            else if (!insertItem(newItem, LNULL, &L)) printf("+ Error: New not possible\n");
             else printf("* New: project %s category %s\n", param1, param2);
 
             break;

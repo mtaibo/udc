@@ -144,7 +144,7 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
 
             printf("Null votes %d\n", nullVotes);
             printf("Participation: %d votes from %s evaluators (%.2f%%)\n",
-                totalVotes,
+                totalVotes+nullVotes,
                 param1,
                 (atoi(param1) == 0) ? 0.0: ((float) (totalVotes + nullVotes) / atoi(param1)) * 100
             );

@@ -16,30 +16,43 @@
 #define MAX_BUFFER 255
 
 #ifdef DYNAMIC_LIST
-#include "dynamic_list.h"
+    #include "dynamic_list.h"
 #endif
 #ifdef STATIC_LIST
-#include "static_list.h"
+    #include "static_list.h"
 #endif
 
-/* Definición de variables globales, tanto la lista de proyectos, 
- * como las variables para la contabilización de votos y la estadística posterior */
-tList L;
-int nullVotes = 0;
-int totalVotes = 0;
+void printHeader(char* commandNumber, char command, char* param1, char* param2) {
+
+    /* Impresión de la decoración de la cabecera del comando */
+    printf("********************\n");
+
+    /* Impresión de la cabecera del comando correspondiente */
+    switch (command) {
+        case 'N': printf("%s %c: project %s category %s\n", commandNumber, command, param1, param2); break;
+        case 'V': printf("%s %c: project %s\n", commandNumber, command, param1); break;
+        case 'D': printf("%s %c: project %s\n", commandNumber, command, param1); break;
+        case 'S': printf("%s %c: totalevaluators %s\n", commandNumber, command, param1); break;
+        default: break;
+    }
+}
 
 
-void processCommand(char* commandNumber, char command, char* param1, char* param2) {
+void processCommand(tList list, char* commandNumber, char command, char* param1, char* param2) {
+
+    /* Definición de contadores estáticos, variables para la contabilización de votos 
+     * y la estadística posterior. Estas variables guardaran su valor entre cada llamada 
+     * a processCommand, aunque no serán variables globales al no estar disponibles 
+     * fuera de esta función concreta. */
+    static int nullVotes = 0;
+    static int totalVotes = 0;
 
     /* Impresión de la cabecera */
-    printf("********************\n");
+    printHeader(commandNumber, command, param1, param2);
 
     switch (command) {
 
         case 'N': {
-
-            /* Impresión del comando que se va a procesar */
-            printf("%s %c: project %s category %s\n", commandNumber, command, param1, param2);
 
             /* Creación del nuevo elemento a insertar */
             tItemL newItem;
@@ -49,12 +62,12 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
 
             /* Prevención contra elementos duplicados con comprobación de lista vacía 
              * para cumplir con la precondición de findItem */
-            if (!isEmptyList(L) && (findItem(newItem.projectName, L) != LNULL)) {
+            if (!isEmptyList(list) && (findItem(newItem.projectName, list) != LNULL)) {
                 printf("+ Error: New not possible\n"); break;
             }
 
             /* Inserción del elemento en la lista, con comprobación ante errores de inserción */
-            else if (!insertItem(newItem, LNULL, &L)) printf("+ Error: New not possible\n");
+            else if (!insertItem(newItem, LNULL, &list)) printf("+ Error: New not possible\n");
             else printf("* New: project %s category %s\n", param1, param2);
 
             break;
@@ -62,19 +75,16 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
 
         case 'V': {
 
-            /* Impresión del comando que se va a procesar */
-            printf("%s %c: project %s\n", commandNumber, command, param1);
-
             /* Comprobación ante listas vacías, en ese caso, imprimir mensaje de error 
              * y contabilizar el voto como nulo */
-            if (isEmptyList(L)) {
+            if (isEmptyList(list)) {
                 printf("+ Error: Vote not possible. Project %s not found. NULLVOTE\n", param1);
                 nullVotes++;
             }
 
             /* Búsqueda del elemento en la lista al que se quiere añadir un voto */
             tPosL itemPos;
-            itemPos = findItem(param1, L);
+            itemPos = findItem(param1, list);
 
             /* Comprobación de si la búsqueda del elemento lo ha encontrado,
              * en caso de no encontrarlo, imprimir mensaje de error y contabilizar el voto como nulo */
@@ -82,11 +92,11 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
 
                 /* Obtención del item que se quiere actualizar sumando un voto */
                 tItemL item;
-                item = getItem(itemPos, L);
+                item = getItem(itemPos, list);
 
                 /* Aumento de un voto dentro del item y actualización del mismo en la lista */
                 item.numVotes++;
-                updateItem(item, itemPos, &L);
+                updateItem(item, itemPos, &list);
 
                 /* Aumento de votos en el contador global de votos */
                 totalVotes++;
@@ -108,18 +118,15 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
 
         case 'D': {
 
-            /* Impresión del comando que se va a procesar */
-            printf("%s %c: project %s\n", commandNumber, command, param1);
-
             /* Comprobación ante listas vacías */
-            if (isEmptyList(L)) {
+            if (isEmptyList(list)) {
                 printf("+ Error: Disqualify not possible\n");
                 break;
             }
 
             /* Búsqueda del elemento en la lista que se quiere descalificar */
             tPosL itemPos;
-            itemPos = findItem(param1, L);
+            itemPos = findItem(param1, list);
 
             /* Comprobación de si la búsqueda del elemento lo ha encontrado,
              * en caso de no encontrarlo, imprimir mensaje de error */
@@ -127,7 +134,7 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
 
                 /* Obtención del item que se quiere descalificar */
                 tItemL item;
-                item = getItem(itemPos, L);
+                item = getItem(itemPos, list);
 
                 /* Contabilización de sus votos como nulos y eliminarlos 
                  * de los votos totales antes de descalificarlo */
@@ -135,7 +142,7 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
                 totalVotes -= item.numVotes;
 
                 /* Descalificación del elemento eliminandolo de la lista */
-                deleteAtPosition(itemPos, &L);
+                deleteAtPosition(itemPos, &list);
 
                 /* Impresión del resultado satisfactorio del comando procesado */
                 printf("* Disqualify: project %s category %s\n", 
@@ -151,10 +158,9 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
         case 'S': {
 
             /* Impresión del comando que se va a procesar */
-            printf("%s %c: totalevaluators %s\n", commandNumber, command, param1);
 
             /* Comprobación ante listas vacías */
-            if (isEmptyList(L)) {
+            if (isEmptyList(list)) {
                 printf("+ Error: Stats not possible\n");
                 break;
             }
@@ -162,9 +168,9 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
             tItemL item; // item: variable para obtener el elemento al recorrer la lista
 
             /* Bucle para recorrer toda la lista para imprimir las estadísticas de cada elemento */
-            for (tPosL p = first(L); p != LNULL; p = next(p, L)) {
+            for (tPosL p = first(list); p != LNULL; p = next(p, list)) {
 
-                item = getItem(p, L); // Obtener el contenido elemento en la lista
+                item = getItem(p, list); // Obtener el contenido elemento en la lista
 
                 /* Impresión de las estadísticas de cada elemento individual */
                 printf("Project %s category %s numvotes %d (%.2f%%)\n",
@@ -195,7 +201,7 @@ void processCommand(char* commandNumber, char command, char* param1, char* param
     }
 }
 
-void readTasks(char* filename) {
+void readTasks(char* filename, tList list) {
     FILE* f = NULL;
     char *commandNumber, *command, *param1, *param2;
     const char delimiters[] = " \n\r";
@@ -210,7 +216,7 @@ void readTasks(char* filename) {
             param1 = strtok(NULL, delimiters);
             param2 = strtok(NULL, delimiters);
 
-            processCommand(commandNumber, command[0], param1, param2);
+            processCommand(list, commandNumber, command[0], param1, param2);
         }
 
         fclose(f);
@@ -225,7 +231,8 @@ int main(int nargs, char** args) {
 
     /* Inicializar la lista vacía al inicio de la ejecución 
      * del programa para evitar memoria residual */
-    createEmptyList(&L);
+    static tList list;
+    createEmptyList(&list);
 
     if (nargs > 1) {
         file_name = args[1];
@@ -235,7 +242,6 @@ int main(int nargs, char** args) {
         #endif
     }
 
-    readTasks(file_name);
-
+    readTasks(file_name, list);
     return 0;
 }

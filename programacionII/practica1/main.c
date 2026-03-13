@@ -15,8 +15,6 @@
 
 #define MAX_BUFFER 255
 
-#define DYNAMIC_LIST
-
 #ifdef DYNAMIC_LIST
 #include "dynamic_list.h"
 #endif
@@ -24,10 +22,31 @@
 #include "static_list.h"
 #endif
 
-float calcPercentage(int cases, int total) {
+/* Objetivo: Calcular un porcentaje a partir de dos enteros.
+ * Entradas:
+ *   - part: Número de casos sobre los que calcular el porcentaje.
+ *   - total: Número total de casos.
+ * Salida: El porcentaje en un número tipo float.
+ * Precondiciones: Las entradas son números int válidos.
+ * Postcondiciones: Ninguna postcondición.
+ */
+
+float calcPercentage(int part, int total) {
     if (total == 0) return 0.0;
-    return (float)cases / (float)total * 100;
+    return (float)part / (float)total * 100;
 }
+
+/* Objetivo: Incorporar un proyecto al final de la lista de proyectos.
+ * Entradas:
+ *   - list: Puntero a la lista de proyectos
+ *   - projectName: Nombre del nuevo proyecto
+ *   - projectEco: Array de caracteres que indica si un proyecto es o no eco.
+ * Salidas: 
+ *   - Valor booleano indicando si se ha podido ejecutar el comando con éxito.
+ *   - Un nuevo elemento al final de la lista de proyectos.
+ * Precondiciones: La lista debe estar inicializada.
+ * Postcondiciones: Los votos quedarán inicializados a 0.
+ */
 
 bool new(tList* list, char* projectName, char* projectEco) {
 
@@ -51,6 +70,21 @@ bool new(tList* list, char* projectName, char* projectEco) {
         return true;
     }
 }
+
+/* Objetivo: Aumentar en uno el contador de votos del proyecto indicado.
+ * Entradas:
+ *   - list: Puntero a la lista de proyectos.
+ *   - nullVotes: Puntero al contador global de votos nulos.
+ *   - totalVotes: Puntero al contador global de votos totales.
+ *   - projectName: Nombre del proyecto en el que se quiere votar.
+ * Salidas: 
+ *   - Valor booleano indicando si se ha podido ejecutar el comando con éxito.
+ *   - Proyecto de la lista de proyectos actualizado en el caso de un comando exitoso.
+ *   - Contador de votos totales aumentado en uno en el caso de un comando exitoso.
+ *   - Contador de votos nulos aumentado en uno en el caso de un comando fallido.
+ * Precondiciones: La lista debe estar inicializada.
+ * Postcondiciones: Si no existe el proyecto o si la lista está vacía, el voto contará como nulo.
+ */
 
 bool vote(tList* list, int* nullVotes, int* totalVotes, char* projectName) {
 
@@ -89,6 +123,21 @@ bool vote(tList* list, int* nullVotes, int* totalVotes, char* projectName) {
     return true;
 }
 
+/* Objetivo: Eliminar un proyecto de la lista de proyectos.
+ * Entradas:
+ *   - list: Puntero a la lista de proyectos.
+ *   - nullVotes: Puntero al contador global de votos nulos.
+ *   - totalVotes: Puntero al contador global de votos totales.
+ *   - projectName: Nombre del proyecto en que se quiere descalificar.
+ * Salidas: 
+ *   - Valor booleano indicando si se ha podido ejecutar el comando con éxito.
+ *   - Proyecto de la lista de proyectos eliminado en el caso de un comando exitoso.
+ *   - Contador de votos totales disminuído en el caso de un comando exitoso.
+ *   - Contador de votos nulos aumentado en el caso de un comando exitoso.
+ * Precondiciones: La lista debe estar inicializada.
+ * Postcondiciones: Los votos del proyecto descalificado serán contabilizados como nulos.
+ */
+
 bool disqualify(tList* list, int* nullVotes, int* totalVotes, char* projectName) {
 
     /* Comprobación ante listas vacías */
@@ -123,6 +172,19 @@ bool disqualify(tList* list, int* nullVotes, int* totalVotes, char* projectName)
     );
     return true;
 }
+
+/* Objetivo: Mostrar todos los proyectos y estadísticas individuales y globales acerca de los votos.
+ * Entradas:
+ *   - list: Puntero a la lista de proyectos.
+ *   - nullVotes: Puntero al contador global de votos nulos.
+ *   - totalVotes: Puntero al contador global de votos totales.
+ *   - voters: Número de evaluadores (votantes) de los proyectos.
+ * Salidas: 
+ *   - Valor booleano indicando si se ha podido ejecutar el comando con éxito.
+ *   - Mensajes indicando las características y estadísticas de cada proyectos y las globales.
+ * Precondiciones: La lista debe estar inicializada.
+ * Postcondiciones: Ninguna postcondición.
+ */
 
 bool stats(tList list, int nullVotes, int totalVotes, char* voters) {
 

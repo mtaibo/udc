@@ -56,13 +56,11 @@ bool new(tList* list, char* projectName, char* projectEco) {
         return false;
     }
 
-    /* Creación del nuevo elemento a insertar e inicialización del mismo */
     tItemL newItem;
     strcpy(newItem.projectName, projectName);
     newItem.projectEco = strcmp(projectEco, "eco") == 0;
     newItem.numVotes = 0;
 
-    /* Inserción del nuevo item en la lista e impresión del mensaje de éxito o error */
     if (!insertItem(newItem, LNULL, list)) {
         return false;
     } else {
@@ -94,7 +92,6 @@ bool vote(tList* list, int* nullVotes, int* totalVotes, char* projectName) {
         return false;
     }
 
-    /* Búsqueda del elemento en la lista */
     tPosL itemPos;
     itemPos = findItem(projectName, *list);
 
@@ -104,16 +101,13 @@ bool vote(tList* list, int* nullVotes, int* totalVotes, char* projectName) {
         return false;
     }
 
-    /* Modificación del item en la lista */
     tItemL item;
     item = getItem(itemPos, *list);
     item.numVotes++;
     updateItem(item, itemPos, list);
 
-    /* Contabilizar el voto como válido en el contador general */
     (*totalVotes)++;
 
-    /* Impresión del mensaje de éxito */
     printf("* Vote: project %s category %s numvotes %d\n", 
         projectName, 
         item.projectEco ? "eco" : "non-eco",
@@ -140,21 +134,17 @@ bool vote(tList* list, int* nullVotes, int* totalVotes, char* projectName) {
 
 bool disqualify(tList* list, int* nullVotes, int* totalVotes, char* projectName) {
 
-    /* Comprobación ante listas vacías */
     if (isEmptyList(*list)) {
         return false;
     }
 
-    /* Búsqueda del elemento en la lista */
     tPosL itemPos;
     itemPos = findItem(projectName, *list);
 
-    /* Comprobación ante elemento no encontrado */
     if (itemPos == LNULL) {
         return false;
     }
 
-    /* Obtención del item */
     tItemL item;
     item = getItem(itemPos, *list);
 
@@ -162,10 +152,8 @@ bool disqualify(tList* list, int* nullVotes, int* totalVotes, char* projectName)
     (*nullVotes) += item.numVotes;
     (*totalVotes) -= item.numVotes;
 
-    /* Descalificación del elemento eliminandolo de la lista */
     deleteAtPosition(itemPos, list);
 
-    /* Impresión del mensaje de éxito */
     printf("* Disqualify: project %s category %s\n", 
         projectName, 
         item.projectEco ? "eco" : "non-eco"
@@ -188,7 +176,6 @@ bool disqualify(tList* list, int* nullVotes, int* totalVotes, char* projectName)
 
 bool stats(tList list, int nullVotes, int totalVotes, char* voters) {
 
-    /* Comprobación ante listas vacías */
     if (isEmptyList(list)) {
         return false;
     }
@@ -197,9 +184,8 @@ bool stats(tList list, int nullVotes, int totalVotes, char* voters) {
 
     /* Bucle para recorrer toda la lista e imprimir las estadísticas de cada elemento */
     for (tPosL p = first(list); p != LNULL; p = next(p, list)) {
-        item = getItem(p, list);  // Obtener el contenido elemento en la lista
+        item = getItem(p, list);
 
-        /* Impresión de las estadísticas de cada elemento individual */
         printf("Project %s category %s numvotes %d (%.2f%%)\n",
                item.projectName,
                (item.projectEco) ? "eco" : "non-eco",
@@ -207,7 +193,6 @@ bool stats(tList list, int nullVotes, int totalVotes, char* voters) {
                calcPercentage(item.numVotes, totalVotes));
     }
 
-    /* Impresión de los resultados generales */
     printf("Null votes %d\n", nullVotes);
     printf("Participation: %d votes from %s evaluators (%.2f%%)\n",
            totalVotes + nullVotes,
@@ -219,16 +204,14 @@ bool stats(tList list, int nullVotes, int totalVotes, char* voters) {
 
 void processCommand(tList* list, int* nullVotes, int* totalVotes, char* commandNumber, char command, char* param1, char* param2) {
 
-    /* Impresión de la decoración de la cabecera del comando */
     printf("********************\n");
 
     switch (command) {
 
         case 'N':
-            /* Impresión de la cabecera del comando */
+
             printf("%s %c: project %s category %s\n", commandNumber, command, param1, param2);
 
-            /* Impresión del mensaje de error en caso de ejecución errónea del comando */
             if (!new(list, param1, param2)) {
                 printf("+ Error: New not possible\n");
             }
@@ -236,10 +219,8 @@ void processCommand(tList* list, int* nullVotes, int* totalVotes, char* commandN
 
         case 'V':
 
-            /* Impresión de la cabecera del comando */
             printf("%s %c: project %s\n", commandNumber, command, param1);
 
-            /* Impresión del mensaje de error en caso de ejecución errónea del comando */
             if (!vote(list, nullVotes, totalVotes, param1)) {
                 printf("+ Error: Vote not possible. Project %s not found. NULLVOTE\n", param1);
             }
@@ -247,10 +228,8 @@ void processCommand(tList* list, int* nullVotes, int* totalVotes, char* commandN
 
         case 'D':
 
-            /* Impresión de la cabecera del comando */
             printf("%s %c: project %s\n", commandNumber, command, param1);
 
-            /* Impresión del mensaje de error en caso de ejecución errónea del comando */
             if (!disqualify(list, nullVotes, totalVotes, param1)) {
                 printf("+ Error: Disqualify not possible\n");
             }
@@ -258,10 +237,8 @@ void processCommand(tList* list, int* nullVotes, int* totalVotes, char* commandN
 
         case 'S':
 
-            /* Impresión de la cabecera del comando */
             printf("%s %c: totalevaluators %s\n", commandNumber, command, param1);
 
-            /* Impresión del mensaje de error en caso de ejecución errónea del comando */
             if (!stats(*list, *nullVotes, *totalVotes, param1)) {
                 printf("+ Error: Stats not possible\n");
             }
@@ -301,24 +278,19 @@ void readTasks(char* filename, tList* list, int* nullVotes, int* totalVotes) {
 int main(int nargs, char** args) {
     char* file_name = "new.txt";
 
-    /* Creación e inicialización de la lista para
-     * guardar los proyectos solicitados. */
-    static tList list;
+    tList list; // list: Listas de proyectos
+    int nullVotes = 0; // nullVotes: Contador de votos nulos
+    int totalVotes = 0; // totalVotes: Contador de los votos acumulados por todos los proyectos sin contar los nulos.
+
+    /* Inicialiazción de la lista */
     createEmptyList(&list);
-
-    /* Contador para los votos nulos */
-    int nullVotes = 0;
-
-    /* Contador para los votos totales usado para el cálculo
-     * de las estadísticas. */
-    int totalVotes = 0;
 
     if (nargs > 1) {
         file_name = args[1];
     } else {
-#ifdef INPUT_FILE
-        file_name = INPUT_FILE;
-#endif
+        #ifdef INPUT_FILE
+            file_name = INPUT_FILE;
+        #endif
     }
 
     readTasks(file_name, &list, &nullVotes, &totalVotes);

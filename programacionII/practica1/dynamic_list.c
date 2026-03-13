@@ -7,6 +7,9 @@
  * DATE: 06 / 03 / 26
  */
 
+#include <string.h> /* Librería que incluye el strcmp() para comparar nombres de proyectos. */
+#include <stdlib.h> /* Librería que incluye el malloc() para reservar memoria para nuevos nodos de la lista. */
+
 #include "dynamic_list.h"
 
 void createEmptyList(tList* L) {

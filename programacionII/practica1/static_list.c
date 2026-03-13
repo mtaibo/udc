@@ -7,6 +7,8 @@
  * DATE: 27 / 02 / 26
  */
 
+#include <string.h> /* Librería que incluye el strcmp() para comparar nombres de proyectos. */
+
 #include "static_list.h"
 
 void createEmptyList(tList *L) {

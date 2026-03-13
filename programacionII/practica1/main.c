@@ -15,6 +15,8 @@
 
 #define MAX_BUFFER 255
 
+#define DYNAMIC_LIST
+
 #ifdef DYNAMIC_LIST
 #include "dynamic_list.h"
 #endif
@@ -41,8 +43,13 @@ bool new(tList* list, char* projectName, char* projectEco) {
     newItem.projectEco = strcmp(projectEco, "eco") == 0;
     newItem.numVotes = 0;
 
-    /* Inserción del elemento en la lista, con comprobación ante errores de inserción */
-    return insertItem(newItem, LNULL, list);
+    /* Inserción del nuevo item en la lista e impresión del mensaje de éxito o error */
+    if (!insertItem(newItem, LNULL, list)) {
+        return false;
+    } else {
+        printf("* New: project %s category %s\n", projectName, projectEco);
+        return true;
+    }
 }
 
 bool vote(tList* list, int* nullVotes, int* totalVotes, char* projectName) {
@@ -59,7 +66,7 @@ bool vote(tList* list, int* nullVotes, int* totalVotes, char* projectName) {
 
     /* Si el elemento no se ha encontrado, contabilizar como nulo el voto */
     if (itemPos == LNULL) {
-        nullVotes++;
+        (*nullVotes)++;
         return false;
     }
 
@@ -70,7 +77,15 @@ bool vote(tList* list, int* nullVotes, int* totalVotes, char* projectName) {
     updateItem(item, itemPos, list);
 
     /* Contabilizar el voto como válido en el contador general */
-    totalVotes++;
+    (*totalVotes)++;
+
+    /* Impresión del mensaje de éxito */
+    printf("* Vote: project %s category %s numvotes %d\n", 
+        projectName, 
+        item.projectEco ? "eco" : "non-eco",
+        item.numVotes
+    );
+
     return true;
 }
 
@@ -95,11 +110,17 @@ bool disqualify(tList* list, int* nullVotes, int* totalVotes, char* projectName)
     item = getItem(itemPos, *list);
 
     /* Pasar sus votos a nulos en los contadores globales */
-    nullVotes += item.numVotes;
-    totalVotes -= item.numVotes;
+    (*nullVotes) += item.numVotes;
+    (*totalVotes) -= item.numVotes;
 
     /* Descalificación del elemento eliminandolo de la lista */
     deleteAtPosition(itemPos, list);
+
+    /* Impresión del mensaje de éxito */
+    printf("* Disqualify: project %s category %s\n", 
+        projectName, 
+        item.projectEco ? "eco" : "non-eco"
+    );
     return true;
 }
 
@@ -130,6 +151,8 @@ bool stats(tList list, int nullVotes, int totalVotes, char* voters) {
            totalVotes + nullVotes,
            voters,
            calcPercentage(totalVotes + nullVotes, atoi(voters)));
+
+    return true;
 }
 
 void processCommand(tList* list, int* nullVotes, int* totalVotes, char* commandNumber, char command, char* param1, char* param2) {
@@ -143,10 +166,8 @@ void processCommand(tList* list, int* nullVotes, int* totalVotes, char* commandN
             /* Impresión de la cabecera del comando */
             printf("%s %c: project %s category %s\n", commandNumber, command, param1, param2);
 
-            /* Impresión del mensaje de éxito o de error del comando seleccionado */
-            if (new(list, param1, param2)) {
-                printf("* New: project %s category %s\n", param1, param2);
-            } else {
+            /* Impresión del mensaje de error en caso de ejecución errónea del comando */
+            if (!new(list, param1, param2)) {
                 printf("+ Error: New not possible\n");
             }
             break;
@@ -156,11 +177,8 @@ void processCommand(tList* list, int* nullVotes, int* totalVotes, char* commandN
             /* Impresión de la cabecera del comando */
             printf("%s %c: project %s\n", commandNumber, command, param1);
 
-            /* Impresión del mensaje de éxito o de error del comando seleccionado */
-            if (vote(list, nullVotes, totalVotes, param1)) {
-                printf("* Vote: project %s category %s numvotes %d\n", param1, param2,
-                       item.numVotes);
-            } else {
+            /* Impresión del mensaje de error en caso de ejecución errónea del comando */
+            if (!vote(list, nullVotes, totalVotes, param1)) {
                 printf("+ Error: Vote not possible. Project %s not found. NULLVOTE\n", param1);
             }
             break;
@@ -170,11 +188,9 @@ void processCommand(tList* list, int* nullVotes, int* totalVotes, char* commandN
             /* Impresión de la cabecera del comando */
             printf("%s %c: project %s\n", commandNumber, command, param1);
 
-            /* Impresión del mensaje de éxito o de error del comando seleccionado */
-            if (disqualify(list, nullVotes, totalVotes, param1)) {
-                printf("* Disqualify: project %s category %s\n", param1, param2);
-            } else {
-                printf("+ Error: Disqualify not possible");
+            /* Impresión del mensaje de error en caso de ejecución errónea del comando */
+            if (!disqualify(list, nullVotes, totalVotes, param1)) {
+                printf("+ Error: Disqualify not possible\n");
             }
             break;
 
@@ -183,7 +199,7 @@ void processCommand(tList* list, int* nullVotes, int* totalVotes, char* commandN
             /* Impresión de la cabecera del comando */
             printf("%s %c: totalevaluators %s\n", commandNumber, command, param1);
 
-            /* Impresión del mensaje de éxito o de error del comando seleccionado */
+            /* Impresión del mensaje de error en caso de ejecución errónea del comando */
             if (!stats(*list, *nullVotes, *totalVotes, param1)) {
                 printf("+ Error: Stats not possible\n");
             }

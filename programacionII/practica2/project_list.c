@@ -1,5 +1,5 @@
 /*
-* TITLE: PROGRAMMING II LABS
+ * TITLE: PROGRAMMING II LABS
  * SUBTITLE: Practical 2
  * AUTHOR 1: Miguel Taibo Pérez LOGIN 1: miguel.taibo.perez@udc.es
  * AUTHOR 2: Marcos Estévez Besada LOGIN 2: marcos.estevez1@udc.es
@@ -8,6 +8,7 @@
  */
 
 #include "project_list.h"
+
 #include <string.h> /* Librería que incluye el strcmp() para comparar nombres de proyectos. */
 #include <stdlib.h> /* Librería que incluye el malloc() para reservar memoria para nuevos nodos de la lista. */
 #include <stdio.h>

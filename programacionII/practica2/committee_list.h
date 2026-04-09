@@ -115,7 +115,7 @@ tPosC previousC(tPosC p, tListC L);
  * Postcondiciones: El orden de los elementos de la lista puede verse modificado, y la lista puede ver aumentado su tamaño.
  */
 
-bool insertItemC(tItemC d, tPosC p, tListC* L);
+bool insertItemC(tItemC d, tListC* L);
 
 /* Objetivo: Elimina de la lista el elemento en la posición indicada.
  * Entradas:

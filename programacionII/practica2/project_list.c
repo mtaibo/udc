@@ -45,7 +45,7 @@ tPosP previousP(tPosP p, tListP L) {
 
 tPosP findItemP(tProjectName n, tListP L) {
     tPosP p;
-    for (p = L; (p != NULLP) && (strcmp(p->data.projectName, n) < 0); p = nextP(p, L)); // Bucle que recorre la lista con p hasta que los nombres son iguales.
+    for (p = L; (p != NULLP) && (strcmp(p->data.projectName, n) < 0); p = nextP(p, L)); // Bucle que recorre la lista con p hasta que el nombre buscado esté alfabéticamente por debajo del actual.
 
     if (p != NULLP && strcmp(p->data.projectName, n) == 0) return p;
     else return NULLP;
@@ -79,9 +79,9 @@ void deleteAtPositionP(tPosP p, tListP *L) {
     free(p);
 }
 
-bool insertItemP(tItemP d, tPosP p, tListP *L) {
+bool insertItemP(tItemP d, tListP *L) {
 
-    tPosP q;
+    tPosP p, q; // p: Variable para recorrer las posiciones de la lista, q: Variable donde se introduce el nuevo elemento.
 
     // Si no se ha podido crear un nuevo nodo de la lista,
     // no se podrá insertar un nuevo elemento
@@ -91,15 +91,23 @@ bool insertItemP(tItemP d, tPosP p, tListP *L) {
     q->next = NULLP;
 
     if (isEmptyListP(*L)) *L = q; // Inserción en una lista vacía
-    else if (p == NULLP) lastP(*L) -> next = q; // Inserción en el final de la lista
 
-    else {  // Insertar en una posición intermedia
-        q->data = getItemP(p, *L);
-        q->next = nextP(p, *L);
-        updateItemP(d, p, L);
+    else { // Inserción en una lista no vacía
 
-        p->next = q;
+        // Buscamos la posición donde se debe insertar
+        for (p = *L; (p->next != NULLP) && (strcmp(p->data.projectName, d.projectName) < 0); p = nextP(p, *L)); 
+
+        if (strcmp(p->data.projectName, d.projectName) < 0) p -> next = q; // Inserción en el final de la lista
+
+        else { // Inserción en posición intermedia
+
+            q->data = getItemP(p, *L);
+            q->next = nextP(p, *L);
+            updateItemP(d, p, L);
+
+            p->next = q;
+        }
     }
-
+        
     return true;
 }

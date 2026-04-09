@@ -74,7 +74,7 @@ tPosP firstP(tListP L);
  * Postcondiciones: Ninguna postcondición.
  */
 
-tPosP last(tListP L);
+tPosP lastP(tListP L);
 
 /* Objetivo: Devuelve la posición siguiente en la lista a una indicada, o LNULL si no hay posición siguiente.
  * Entradas:
@@ -96,11 +96,11 @@ tPosP nextP(tPosP p, tListP L);
  * Postcondiciones: Ninguna postcondición.
  */
 
-tPosP previous(tPosP p, tListP L);
+tPosP previousP(tPosP p, tListP L);
 
 /* MODIFICACIÓN DE LISTAS */
 
-/* Objetivo: Insertar un elemento en la lista dada con el contenido aportado en la posición indicada. Si la posición es LNULL, se insertará al final.
+/* Objetivo: Insertar un elemento de forma ordenada en función del campo projectName.
  * Entradas:
  *   - d: Contenido del elemento a insertar.
  *   - p: Posición donde se quiere insertar el elemento en la lista.
@@ -112,7 +112,7 @@ tPosP previous(tPosP p, tListP L);
  * Postcondiciones: El orden de los elementos de la lista puede verse modificado, y la lista puede ver aumentado su tamaño.
  */
 
-bool insertItem(tItemP d, tPosP p, tListP* L);
+bool insertItemP(tItemP d, tListP* L);
 
 /* Objetivo: Elimina de la lista el elemento en la posición indicada.
  * Entradas:

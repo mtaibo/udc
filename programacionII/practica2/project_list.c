@@ -44,11 +44,14 @@ tPosP previousP(tPosP p, tListP L) {
 }
 
 tPosP findItemP(tProjectName n, tListP L) {
-    tPosP p;
-    for (p = L; (p != NULLP) && (strcmp(p->data.projectName, n) < 0); p = nextP(p, L)); // Bucle que recorre la lista con p hasta que el nombre buscado esté alfabéticamente por debajo del actual.
+    tPosP p; // p: Variable para recorrer las posiciones de la lista y almacenar la posición final.
 
-    if (p != NULLP && strcmp(p->data.projectName, n) == 0) return p;
-    else return NULLP;
+    // Bucle que recorre la lista con p hasta que el nombre buscado esté alfabéticamente por debajo del actual.
+    for (p = firstP(L); (p != NULLP) && (strcmp(getItemP(p, L).projectName, n) < 0); p = nextP(p, L)); 
+
+    // Comprobación final para determinar el motivo de la parada del bucle y devolver la posición consecuente.
+    if (p != NULLP && strcmp(getItemP(p, L).projectName, n) == 0) return p;
+    return NULLP;
 }
 
 tItemP getItemP(tPosP p, tListP L) {

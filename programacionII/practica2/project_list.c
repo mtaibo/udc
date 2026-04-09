@@ -45,8 +45,10 @@ tPosP previousP(tPosP p, tListP L) {
 
 tPosP findItemP(tProjectName n, tListP L) {
     tPosP p;
-    for (p = L; (p != NULLP) && (strcmp(p->data.projectName, n) != 0); p = nextP(p, L)); // Bucle que recorre la lista con p hasta que los nombres son iguales.
-    return p;
+    for (p = L; (p != NULLP) && (strcmp(p->data.projectName, n) < 0); p = nextP(p, L)); // Bucle que recorre la lista con p hasta que los nombres son iguales.
+
+    if (p != NULLP && strcmp(p->data.projectName, n) == 0) return p;
+    else return NULLP;
 }
 
 tItemP getItemP(tPosP p, tListP L) {

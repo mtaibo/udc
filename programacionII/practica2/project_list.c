@@ -98,9 +98,9 @@ bool insertItemP(tItemP d, tListP *L) {
     else { // Inserción en una lista no vacía
 
         // Buscamos la posición donde se debe insertar
-        for (p = *L; (p->next != NULLP) && (strcmp(p->data.projectName, d.projectName) < 0); p = nextP(p, *L)); 
+        for (p = firstP(*L); (nextP(p, *L) != NULLP) && (strcmp(getItemP(p, *L).projectName, d.projectName) < 0); p = nextP(p, *L)); 
 
-        if (strcmp(p->data.projectName, d.projectName) < 0) p -> next = q; // Inserción en el final de la lista
+        if (strcmp(getItemP(p, *L).projectName, d.projectName) < 0) p -> next = q; // Inserción en el final de la lista
 
         else { // Inserción en posición intermedia
 

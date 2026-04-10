@@ -95,8 +95,6 @@ bool insertItemC(tItemC d, tListC *L) {
     }
 
     L->lastPos += 1; // Aumenta el tamaño de la lista.
-<<<<<<< HEAD
-=======
 
     return true;
 }
@@ -123,6 +121,5 @@ bool insertItemC(tItemC d, tListC *L) {
     L->data[p] = d;
     L->lastPos++; 
 
->>>>>>> 2c7bf99 (Pequeño ajuste de git)
     return true;
 }

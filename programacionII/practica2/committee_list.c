@@ -95,5 +95,34 @@ bool insertItemC(tItemC d, tListC *L) {
     }
 
     L->lastPos += 1; // Aumenta el tamaño de la lista.
+<<<<<<< HEAD
+=======
+
+    return true;
+}
+
+bool insertItemC(tItemC d, tListC *L) {
+
+    tPosC p, i;
+
+    if (lastC(*L) == MAX - 1) return false; // La inserción no es posible por falta de tamaño.
+    if (isEmptyListC(*L)) p = 0; // Inserción en lista vacía.
+    
+    else { // Inserción en lista no vacía.
+
+        // Buscar la nueva posición del dato.
+        for (p = firstC(*L); p <= lastC(*L) && strcmp(getItemC(p, *L).committeeName, d.committeeName) < 0; p = nextC(p, *L));
+        
+        // Mover los elementos de la lista para dejar hueco al nuevo elemento.
+        for (i = lastC(*L); i >= p; i--) {
+            L->data[i + 1] = L->data[i];
+        }
+    }
+
+    // Insertar el elemento y aumentar lastPos
+    L->data[p] = d;
+    L->lastPos++; 
+
+>>>>>>> 2c7bf99 (Pequeño ajuste de git)
     return true;
 }

@@ -42,7 +42,7 @@ tItemC getItemC(tPosC p, tListC L) {
 
 tPosC findItemC(tCommitteeName n, tListC L) {
 
-    tPosP p; // p: Variable para recorrer las posiciones de la lista y almacenar la posición final.
+    tPosC p; // p: Variable para recorrer las posiciones de la lista y almacenar la posición final.
 
     // Bucle que recorre la lista con p hasta que el nombre buscado esté alfabéticamente por debajo del actual.
     for (p = firstC(L); (p != NULLC) && (strcmp(getItemC(p, L).committeeName, n) < 0); p = nextC(p, L));
@@ -71,14 +71,17 @@ bool insertItemC(tItemC d, tListC *L) {
     tPosC p;
  
     if (lastC(*L) == MAX - 1) return false;  // La inserción no es posible por falta de tamaño.
-    if (isEmptyListC(*L)) updateItemC(d, firstC(*L), L); // Inserción en lista vacía
 
-    else { // Inserción en lista no vacía
+    if (isEmptyListC(*L)) { // Inserción en lista vacía
+
+        updateItemC(d, firstC(*L), L);
+
+    } else { // Inserción en lista no vacía
 
         // Buscamos la posición donde se debe insertar
-        for (p = firstC(*L); (nextC(p, *L) != NULLP) && (strcmp(getItemC(p, *L).committeeName, d.committeeName) < 0); p = nextC(p, *L)); 
+        for (p = firstC(*L); (nextC(p, *L) != NULLC) && (strcmp(getItemC(p, *L).committeeName, d.committeeName) < 0); p = nextC(p, *L)); 
 
-        if (strcmp(getItemC(p, *L).committeeName, d.committeeName) < 0) updateItemC(d, p, L); // Inserción en el final de la lista
+        if (strcmp(getItemC(p, *L).committeeName, d.committeeName) < 0) updateItemC(d, p+1, L); // Inserción en el final de la lista
 
         else { // Inserción en posición intermedia
 
@@ -88,9 +91,9 @@ bool insertItemC(tItemC d, tListC *L) {
             }
 
             L->data[p] = d; // Asigna el nuevo dato en la lista.
-            L->lastPos += 1; // Aumenta el tamaño de la lista.
         }
     }
 
+    L->lastPos += 1; // Aumenta el tamaño de la lista.
     return true;
 }

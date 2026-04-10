@@ -68,7 +68,7 @@ void deleteAtPositionP(tPosP p, tListP *L) {
     if (p == *L) *L = nextP(p, *L); // Eliminamos el primer nodo
     else if (nextP(p, *L) == NULLP) {  // Eliminar último nodo
 
-        for (q = *L; nextP(q, *L) != p; q = next(q, *L));
+        for (q = *L; nextP(q, *L) != p; q = nextP(q, *L));
         q->next = NULLP;
 
     } else {  // Eliminar nodo intermedio
@@ -102,7 +102,7 @@ bool insertItemP(tItemP d, tListP *L) {
 
         if (strcmp(getItemP(p, *L).projectName, d.projectName) < 0) p -> next = q; // Inserción en el final de la lista
 
-        else { // Inserción en posición intermedia
+        else { // Inserción al inicio o en posición intermedia
 
             q->data = getItemP(p, *L);
             q->next = nextP(p, *L);

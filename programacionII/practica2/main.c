@@ -15,11 +15,11 @@
 #define MAX_BUFFER 255
 
 
-void create(tListC* list, char* committeeName, char* totalEvaluators) {
+void create(tListC* committeeList, char* committeeName, char* totalEvaluators) {
 
     /* Prevención contra elementos duplicados, y comprobando si la lista
      * esta vacía para cumplir la precondición de findItemC */
-    if (!isEmptyListC(*list) && (findItemC(committeeName, *list) != NULLC)) {
+    if (!isEmptyListC(*committeeList) && (findItemC(committeeName, *committeeList) != NULLC)) {
         printf("+ Error: Create not possible\n");
         return;
     }
@@ -38,18 +38,18 @@ void create(tListC* list, char* committeeName, char* totalEvaluators) {
 
     newItem.projectList = newProjectList;
 
-    if (!insertItemC(newItem, list)) printf("+ Error: Create not possible\n");
+    if (!insertItemC(newItem, committeeList)) printf("+ Error: Create not possible\n");
     else printf("* Create: committee %s totalevaluators %s\n", committeeName, totalEvaluators);
     return;
 }
 
 
-void new(tListC* list, char* committee, char* project, char* category) {}
-void stats(tListC* list) {}
-void vote(tListC* list, char* committee, char* project) {}
-void disqualify(tListC* list, char* project) {}
-void remove(tListC* list) {}
-void winners(tListC* list) {}
+void new(tListC* committeeList, char* committeeName, char* projectName, char* projectCategory) {}
+void stats(tListC* committeeList) {}
+void vote(tListC* committeeList, char* committeeName, char* projectName) {}
+void disqualify(tListC* committeeList, char* projectName) {}
+void remove(tListC* committeeList) {}
+void winners(tListC* committeeList) {}
 
 
 void processCommand(tListC* list, char *commandNumber, char command, char *param1,char *param2, char *param3) {

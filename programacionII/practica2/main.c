@@ -44,7 +44,36 @@ void create(tListC* committeeList, char* committeeName, char* totalEvaluators) {
 }
 
 
-void new(tListC* committeeList, char* committeeName, char* projectName, char* projectCategory) {}
+void new(tListC* committeeList, char* committeeName, char* projectName, char* projectEco) {
+
+    tItemC itemToUpdate = getItemC(committeeName, *committeeList);
+    tListP projectList = itemToUpdate.projectList;
+
+    /* Prevención contra elementos duplicados, y comprobando si la lista
+     * esta vacía para cumplir la precondición de findItemC */
+    if (!isEmptyListP(projectList) && (findItemP(projectName, projectList) != NULLP)) {
+        printf("+ Error: New not possible\n");
+        return;
+    }
+
+    /* Creación del nuevo item y asignación de sus valores */
+    tItemP newItem;
+
+    strcpy(newItem.projectName, projectName);
+    newItem.numVotes = 0;
+    newItem.projectEco = strcmp(projectEco, "eco") == 0;
+
+    itemToUpdate.projectList = projectList;
+
+    if (!insertItemP(newItem, &projectList)) printf("+ Error: New not possible\n");
+    else { 
+        updateItemC(itemToUpdate, findItemC(committeeName, *committeeList), committeeList);
+        printf("* New: committee %s project %s category %s\n", committeeName, projectName, projectEco);
+    }
+    return;
+}
+
+
 void stats(tListC* committeeList) {}
 void vote(tListC* committeeList, char* committeeName, char* projectName) {}
 void disqualify(tListC* committeeList, char* projectName) {}

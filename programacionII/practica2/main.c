@@ -15,7 +15,35 @@
 #define MAX_BUFFER 255
 
 
-void create(tListC* list, char* committee, char* totalEvaluators) {}
+void create(tListC* list, char* committeeName, char* totalEvaluators) {
+
+    /* Prevención contra elementos duplicados, y comprobando si la lista
+     * esta vacía para cumplir la precondición de findItemC */
+    if (!isEmptyListC(*list) && (findItemC(committeeName, *list) != NULLC)) {
+        printf("+ Error: Create not possible\n");
+        return;
+    }
+
+    /* Creación del nuevo item y asignación de sus valores */
+    tItemC newItem;
+
+    strcpy(newItem.committeeName, committeeName);
+
+    newItem.totalEvaluators = atoi(totalEvaluators);
+    newItem.validVotes = 0;
+    newItem.nullVotes = 0;
+
+    tListP newProjectList;
+    createEmptyListP(&newProjectList);
+
+    newItem.projectList = newProjectList;
+
+    if (!insertItemC(newItem, list)) printf("+ Error: Create not possible\n");
+    else printf("* Create: committee %s totalevaluators %s\n", committeeName, totalEvaluators);
+    return;
+}
+
+
 void new(tListC* list, char* committee, char* project, char* category) {}
 void stats(tListC* list) {}
 void vote(tListC* list, char* committee, char* project) {}

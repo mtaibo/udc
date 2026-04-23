@@ -121,7 +121,49 @@ void stats(tListC committeeList) {
 }
 
 
-void vote(tListC* committeeList, char* committeeName, char* projectName) {}
+void vote(tListC* committeeList, char* committeeName, char* projectName) {
+
+    /* Prevención contra elementos duplicados, y comprobando si la lista
+     * esta vacía para cumplir la precondición de findItemC */
+    if (!isEmptyListC(*committeeList)) {
+
+        tPosC committee_pos = findItemC(committeeName, *committeeList);
+
+        if (committee_pos == NULLC) {
+            printf("+ Error: Vote not possible\n");
+            return;
+        } 
+
+        tItemC committee = getItemC(committee_pos, *committeeList);
+        tPosP project_pos = findItemP(projectName, committee.projectList);
+
+        if (project_pos == NULLP) {
+            committee.nullVotes++;
+            updateItemC(committee, committee_pos, committeeList);
+            printf("+ Error: Vote not possible. Project %s not found in committee %s. NULLVOTE\n",
+                projectName,
+                committeeName
+            );
+            return;
+        }
+
+        tItemP project = getItemP(project_pos, committee.projectList);
+        project.numVotes++;
+
+        updateItemP(project, project_pos, &committee.projectList);
+        updateItemC(committee, committee_pos, committeeList);
+
+        printf("* Vote: committee %s project %s category %s numvotes %d\n",
+            committeeName,
+            projectName,
+            project.projectEco ? "eco" : "non-eco",
+            project.numVotes
+        );
+
+    } else printf("+ Error: Vote not possible\n");
+}
+
+
 void disqualify(tListC* committeeList, char* projectName) {}
 void remove(tListC* committeeList) {}
 void winners(tListC* committeeList) {}

@@ -110,9 +110,9 @@ void stats(tListC committeeList) {
 
             printf("Nullvotes %d\n", committee.nullVotes);
             printf("Participation: %d votes from %d evaluators (%.2f%%)\n\n", 
-                committee.validVotes, 
+                committee.validVotes + committee.nullVotes, 
                 committee.totalEvaluators, 
-                calculatePercentage(committee.validVotes, committee.totalEvaluators)
+                calculatePercentage(committee.validVotes + committee.nullVotes, committee.totalEvaluators)
             );
         }
 

@@ -149,6 +149,7 @@ void vote(tListC* committeeList, char* committeeName, char* projectName) {
 
         tItemP project = getItemP(project_pos, committee.projectList);
         project.numVotes++;
+        committee.validVotes++;
 
         updateItemP(project, project_pos, &committee.projectList);
         updateItemC(committee, committee_pos, committeeList);

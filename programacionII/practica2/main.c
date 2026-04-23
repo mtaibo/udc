@@ -56,7 +56,7 @@ void new(tListC* committeeList, char* committeeName, char* projectName, char* pr
     tListP projectList = itemToUpdate.projectList;
 
     /* Prevención contra elementos duplicados, y comprobando si la lista
-     * esta vacía para cumplir la precondición de findItemC */
+     * esta vacía para cumplir la precondición de findItemP */
     if (!isEmptyListP(projectList) && (findItemP(projectName, projectList) != NULLP)) {
         printf("+ Error: New not possible\n");
         return;

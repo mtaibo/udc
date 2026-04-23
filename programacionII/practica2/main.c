@@ -15,6 +15,11 @@
 #define MAX_BUFFER 255
 
 
+float calculatePercentage(int part, int total) {
+    return (total > 0 ? part / (float) total * 100 : 0.0);
+}
+
+
 void create(tListC* committeeList, char* committeeName, char* totalEvaluators) {
 
     /* Prevención contra elementos duplicados, y comprobando si la lista
@@ -74,7 +79,47 @@ void new(tListC* committeeList, char* committeeName, char* projectName, char* pr
 }
 
 
-void stats(tListC* committeeList) {}
+void stats(tListC committeeList) {
+
+    if (!isEmptyListC(committeeList)) {
+
+        for (tPosC p = firstC(committeeList); p != NULLC; p = nextC(p, committeeList)) {
+
+            tItemC committee = getItemC(p, committeeList);
+            tListP projectList = committee.projectList;
+
+            printf("Committee %s\n", committee.committeeName);
+
+            if (!isEmptyListP(projectList)) {
+
+                for (tPosP q = firstP(projectList); q != NULLP; q = nextP(q, projectList)) {
+
+                    tItemP project = getItemP(q, projectList);
+
+                    printf("Project %s category %s numvotes %d (%.2f%%)\n",
+                        project.projectName,
+                        project.projectEco ? "eco" : "non-eco",
+                        project.numVotes,
+                        calculatePercentage(project.numVotes, committee.validVotes)
+                    );
+
+                }
+
+            } else printf("No projects\n");
+
+            printf("Nullvotes %d\n", committee.nullVotes);
+            printf("Participation: %d votes from %d evaluators (%.2f%%)\n\n", 
+                committee.validVotes, 
+                committee.totalEvaluators, 
+                calculatePercentage(committee.validVotes, committee.totalEvaluators)
+            );
+        }
+
+
+    } else printf("+ Error: Stats not possible\n");
+}
+
+
 void vote(tListC* committeeList, char* committeeName, char* projectName) {}
 void disqualify(tListC* committeeList, char* projectName) {}
 void remove(tListC* committeeList) {}
@@ -98,7 +143,7 @@ void processCommand(tListC* list, char *commandNumber, char command, char *param
 
         case 'S':
             printf("%s %c:\n", commandNumber, command);
-            stats(list);
+            stats(*list);
             break;
 
         case 'V':

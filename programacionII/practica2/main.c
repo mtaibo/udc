@@ -49,6 +49,7 @@ void create(tListC* committeeList, char* committeeName, char* totalEvaluators) {
 }
 
 
+////////// MEJORAR EFICIENCIA////////////
 void new(tListC* committeeList, char* committeeName, char* projectName, char* projectEco) {
 
     tItemC itemToUpdate = getItemC(committeeName, *committeeList);

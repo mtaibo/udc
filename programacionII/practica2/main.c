@@ -1,10 +1,10 @@
 /*
-* TITLE: PROGRAMMING II LABS
+ * TITLE: PROGRAMMING II LABS
  * SUBTITLE: Practical 2
- * AUTHOR 1: ***************************** LOGIN 1: **********
- * AUTHOR 2: ***************************** LOGIN 2: **********
- * GROUP: *.*
- * DATE: ** / ** / **
+ * AUTHOR 1: Miguel Taibo Pérez LOGIN 1: miguel.taibo.perez@udc.es
+ * AUTHOR 2: Marcos Estévez Besada LOGIN 2: marcos.estevez1@udc.es
+ * GROUP: 2.1
+ * DATE: 24 / 04 / 26
  */
 
 #include <stdio.h>

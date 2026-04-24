@@ -210,10 +210,7 @@ void removeInactiveCommittees(tListC* committeeList) {
             if (committee.validVotes == 0) {
 
                 printf("* Remove: committee %s\n", committee.committeeName);
-                
-                tPosC deletePos = p;
-                p = nextC(p, *committeeList);
-                deleteAtPositionC(deletePos, committeeList);
+                deleteAtPositionC(p, committeeList);
                 
                 removed = true;
 

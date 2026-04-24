@@ -49,15 +49,20 @@ void create(tListC* committeeList, char* committeeName, char* totalEvaluators) {
 }
 
 
-////////// MEJORAR EFICIENCIA////////////
 void new(tListC* committeeList, char* committeeName, char* projectName, char* projectEco) {
 
-    tItemC itemToUpdate = getItemC(committeeName, *committeeList);
-    tListP projectList = itemToUpdate.projectList;
+    tPosC committeePos = findItemC(committeeName, *committeeList);
+
+    if (committeePos == NULLC) {
+        printf("+ Error: New not possible\n");
+        return;
+    }
+
+    tItemC committee = getItemC(committeePos, *committeeList);
 
     /* Prevención contra elementos duplicados, y comprobando si la lista
      * esta vacía para cumplir la precondición de findItemP */
-    if (!isEmptyListP(projectList) && (findItemP(projectName, projectList) != NULLP)) {
+    if (!isEmptyListP(committee.projectList) && (findItemP(projectName, committee.projectList) != NULLP)) {
         printf("+ Error: New not possible\n");
         return;
     }
@@ -69,14 +74,11 @@ void new(tListC* committeeList, char* committeeName, char* projectName, char* pr
     newItem.numVotes = 0;
     newItem.projectEco = strcmp(projectEco, "eco") == 0;
 
-    itemToUpdate.projectList = projectList;
-
-    if (!insertItemP(newItem, &projectList)) printf("+ Error: New not possible\n");
+    if (!insertItemP(newItem, &committee.projectList)) printf("+ Error: New not possible\n");
     else { 
-        updateItemC(itemToUpdate, findItemC(committeeName, *committeeList), committeeList);
+        updateItemC(committee, committeePos, committeeList);
         printf("* New: committee %s project %s category %s\n", committeeName, projectName, projectEco);
     }
-    return;
 }
 
 

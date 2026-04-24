@@ -194,7 +194,7 @@ void disqualify(tListC* committeeList, char* projectName) {
 }
 
 
-void remove(tListC* committeeList) {
+void removeInactiveCommittees(tListC* committeeList) {
 
     bool removed = false;
 
@@ -258,7 +258,7 @@ void processCommand(tListC* list, char *commandNumber, char command, char *param
 
         case 'R':
             printf("%s %c:\n", commandNumber, command);
-            remove(list);
+            removeInactiveCommittees(list);
             break;
 
         case 'W':

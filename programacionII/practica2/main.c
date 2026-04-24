@@ -165,8 +165,64 @@ void vote(tListC* committeeList, char* committeeName, char* projectName) {
 }
 
 
-void disqualify(tListC* committeeList, char* projectName) {}
-void remove(tListC* committeeList) {}
+void disqualify(tListC* committeeList, char* projectName) {
+
+    if (!isEmptyListC(*committeeList)) {
+
+        for (tPosC p = firstC(*committeeList); p != NULLC; p = nextC(p, *committeeList)) {
+
+            tItemC committee = getItemC(p, *committeeList);
+            printf("Committee %s\n", committee.committeeName);
+        
+            tPosP project_pos = findItemP(projectName, committee.projectList);
+            if (project_pos == NULLP) printf("No project %s\n\n", projectName);
+            else {
+
+                int votes = getItemP(project_pos, committee.projectList).numVotes;
+
+                committee.validVotes -= votes;
+                committee.nullVotes += votes;
+
+                deleteAtPositionP(project_pos, &committee.projectList);
+                updateItemC(committee, p, committeeList);
+
+                printf("Project %s disqualified\n\n", projectName);
+            }
+        }
+
+    } else printf("+ Error: Disqualify not possible\n");
+}
+
+
+void remove(tListC* committeeList) {
+
+    bool removed = false;
+
+    if (!isEmptyListC(*committeeList)) {
+
+        tPosC p = firstC(*committeeList);
+        while (p != NULLC) {
+
+            tItemC committee = getItemC(p, *committeeList);
+
+            if (committee.validVotes == 0) {
+
+                printf("* Remove: committee %s\n", committee.committeeName);
+                
+                tPosC deletePos = p;
+                p = nextC(p, *committeeList);
+                deleteAtPositionC(deletePos, committeeList);
+                
+                removed = true;
+
+            } else p = nextC(p, *committeeList);
+        }
+    } 
+
+    if (!removed) printf("+ Error: Remove not possible\n");
+}
+
+
 void winners(tListC* committeeList) {}
 
 

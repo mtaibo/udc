@@ -15,6 +15,17 @@
 #define MAX_BUFFER 255
 
 
+/* Objetivo: Calcular un porcentaje a partir de dos enteros.
+ * Entradas:
+ *   - part: Número de casos sobre los que calcular el porcentaje.
+ *   - int: Número total de casos.
+ * Salida: El porcentaje en un número tipo float.
+ * Precondiciones: Las entradas son números int válidos.
+ * Postcondiciones: Ninguna postcondición.
+ * Categoría: Observador.
+ * Cabecera: CalculatePercentage (int, int) -> float
+ */
+
 float calculatePercentage(int part, int total) {
     return (total > 0 ? part / (float) total * 100 : 0.0);
 }
@@ -222,7 +233,61 @@ void removeInactiveCommittees(tListC* committeeList) {
 }
 
 
-void winners(tListC* committeeList) {}
+void winners(tListC* committeeList) {
+
+    if (!isEmptyListC(*committeeList)) {
+
+        /* Bucle para recorrer los distintos comités */
+        for (tPosC p = firstC(*committeeList); p != NULLC; p = nextC(p, *committeeList)) {
+
+            /* Obtención de datos relevantes */            
+            tItemC committee = getItemC(p, *committeeList);
+            tListP projectList = committee.projectList;
+
+            /* Declaración de las variables para almacenar los ganadores */
+            tItemP ecoWinner = {"", -1, true};
+            tItemP nonEcoWinner = {"", -1, false};
+
+            /* Declaración de los flags para saber si el ganador es válido */
+            bool isAnyEcoWinner = false;
+            bool isAnyNonEcoWinner = false;
+
+            /* Búsqueda de ganadores con un bucle sobre la lista de proyectos del comité*/
+            for (tPosP q = firstP(projectList); q != NULLP; q = nextP(q, projectList)) {
+
+                tItemP project = getItemP(q, projectList);
+
+                /* Procesamiento de los criterios para ganar en los proyectos eco */
+                if (project.projectEco) {
+
+                    if (project.numVotes == ecoWinner.numVotes) isAnyEcoWinner = false;
+                    else if (project.numVotes > ecoWinner.numVotes) {
+                        ecoWinner = project;
+                        isAnyEcoWinner = true;
+                    }
+
+                /* Procesamiento de los criterios para ganar en los proyectos no eco */
+                } else {
+
+                    if (project.numVotes == nonEcoWinner.numVotes) isAnyNonEcoWinner = false;
+                    else if (project.numVotes > nonEcoWinner.numVotes) {
+                        nonEcoWinner = project;
+                        isAnyNonEcoWinner = true;
+                    }
+                }
+            }
+
+            printf("Category eco: ");
+            if (isAnyEcoWinner) printf("Project %s numvotes %d\n", ecoWinner.projectName, ecoWinner.numVotes);
+            else printf("No winner\n");
+
+            printf("Category non-eco: ");
+            if (isAnyNonEcoWinner) printf("Project %s numvotes %d\n", nonEcoWinner.projectName, nonEcoWinner.numVotes);
+            else printf("No winner\n");
+        }
+
+    } else printf("+ Error: Winners not possible");
+}
 
 
 void processCommand(tListC* list, char *commandNumber, char command, char *param1,char *param2, char *param3) {
@@ -302,8 +367,10 @@ int main(int nargs, char **args) {
 
     char *file_name = "create.txt";
 
-    tListC list; // Declaración de la varibale con una lista de comités
-    createEmptyListC(&list); // Inicialización en vacío de la lista
+    tListC list; // list: Variable de la lista de comités
+
+    /* Inicialización de la lista */
+    createEmptyListC(&list);
 
     if (nargs > 1) {
         file_name = args[1];

@@ -277,13 +277,15 @@ void winners(tListC* committeeList) {
                 }
             }
 
+            printf("Committee %s\n", committee.committeeName);
+
             printf("Category eco: ");
             if (isAnyEcoWinner) printf("Project %s numvotes %d\n", ecoWinner.projectName, ecoWinner.numVotes);
             else printf("No winner\n");
 
             printf("Category non-eco: ");
-            if (isAnyNonEcoWinner) printf("Project %s numvotes %d\n", nonEcoWinner.projectName, nonEcoWinner.numVotes);
-            else printf("No winner\n");
+            if (isAnyNonEcoWinner) printf("Project %s numvotes %d\n\n", nonEcoWinner.projectName, nonEcoWinner.numVotes);
+            else printf("No winner\n\n");
         }
 
     } else printf("+ Error: Winners not possible");

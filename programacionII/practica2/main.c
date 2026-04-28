@@ -41,30 +41,26 @@ float calculatePercentage(int part, int total) {
 
 void create(tListC* committeeList, char* committeeName, char* totalEvaluators) {
 
-    /* Prevención contra elementos duplicados, y comprobando si la lista
-     * esta vacía para cumplir la precondición de findItemC */
-    if (!isEmptyListC(*committeeList) && (findItemC(committeeName, *committeeList) != NULLC)) {
+    if (findItemC(committeeName, *committeeList) != NULLC) {  // Prevención contra elementos duplicados
         printf("+ Error: Create not possible\n");
-        return;
+
+    } else {
+
+        /* Creación del nuevo item y asignación de sus valores */
+        tItemC newItem;
+
+        strcpy(newItem.committeeName, committeeName);
+
+        newItem.totalEvaluators = atoi(totalEvaluators);
+        newItem.validVotes = 0;
+        newItem.nullVotes = 0;
+
+        createEmptyListP(&newItem.projectList);
+
+        /* Inserción del nuevo item e impresión del mensaje de satisfacción o error */
+        if (!insertItemC(newItem, committeeList)) printf("+ Error: Create not possible\n");
+        else printf("* Create: committee %s totalevaluators %s\n", committeeName, totalEvaluators);
     }
-
-    /* Creación del nuevo item y asignación de sus valores */
-    tItemC newItem;
-
-    strcpy(newItem.committeeName, committeeName);
-
-    newItem.totalEvaluators = atoi(totalEvaluators);
-    newItem.validVotes = 0;
-    newItem.nullVotes = 0;
-
-    tListP newProjectList;
-    createEmptyListP(&newProjectList);
-
-    newItem.projectList = newProjectList;
-
-    if (!insertItemC(newItem, committeeList)) printf("+ Error: Create not possible\n");
-    else printf("* Create: committee %s totalevaluators %s\n", committeeName, totalEvaluators);
-    return;
 }
 
 

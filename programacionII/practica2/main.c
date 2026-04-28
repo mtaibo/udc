@@ -208,21 +208,22 @@ void disqualify(tListC* committeeList, char* projectName) {
 
     if (!isEmptyListC(*committeeList)) {
 
+        /* Bucle para recorrer todos los comités */
         for (tPosC p = firstC(*committeeList); p != NULLC; p = nextC(p, *committeeList)) {
 
             tItemC committee = getItemC(p, *committeeList);
             printf("Committee %s\n", committee.committeeName);
         
-            tPosP project_pos = findItemP(projectName, committee.projectList);
-            if (project_pos == NULLP) printf("No project %s\n\n", projectName);
+            tPosP projectPos = findItemP(projectName, committee.projectList);
+            if (projectPos == NULLP) printf("No project %s\n\n", projectName);
             else {
 
-                int votes = getItemP(project_pos, committee.projectList).numVotes;
+                int votes = getItemP(projectPos, committee.projectList).numVotes;
 
                 committee.validVotes -= votes;
                 committee.nullVotes += votes;
 
-                deleteAtPositionP(project_pos, &committee.projectList);
+                deleteAtPositionP(projectPos, &committee.projectList);
                 updateItemC(committee, p, committeeList);
 
                 printf("Project %s disqualified\n\n", projectName);

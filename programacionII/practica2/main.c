@@ -77,8 +77,8 @@ void new(tListC* committeeList, char* committeeName, char* projectName, char* pr
 
     tPosC committeePos = findItemC(committeeName, *committeeList);
 
-    if (committeePos == NULLC) {
-        printf("+ Error: New not possible\n"); // Validación de la existencia del comité
+    if (committeePos == NULLC) { // Validación de la existencia del comité
+        printf("+ Error: New not possible\n");
 
     } else {
 
@@ -168,43 +168,34 @@ void stats(tListC committeeList) {
 
 void vote(tListC* committeeList, char* committeeName, char* projectName) {
 
-    /* Prevención contra elementos duplicados, y comprobando si la lista
-     * esta vacía para cumplir la precondición de findItemC */
-    if (!isEmptyListC(*committeeList)) {
+    tPosC committeePos = findItemC(committeeName, *committeeList);
 
-        tPosC committee_pos = findItemC(committeeName, *committeeList);
+    if (committeePos != NULLC) { // Validación de la existencia del comité
 
-        if (committee_pos == NULLC) {
-            printf("+ Error: Vote not possible\n");
-            return;
-        } 
+        tItemC committee = getItemC(committeePos, *committeeList);
+        tPosP projectPos = findItemP(projectName, committee.projectList);
 
-        tItemC committee = getItemC(committee_pos, *committeeList);
-        tPosP project_pos = findItemP(projectName, committee.projectList);
-
-        if (project_pos == NULLP) {
+        if (projectPos == NULLP) { // Contabilización del voto como nulo si no encontrado
             committee.nullVotes++;
-            updateItemC(committee, committee_pos, committeeList);
-            printf("+ Error: Vote not possible. Project %s not found in committee %s. NULLVOTE\n",
+            printf("+ Error: Vote not possible. Project %s not found in committee %s. NULLVOTE\n", projectName, committeeName);
+
+        } else { // Contabilización del voto en el proyecto si es encontrado
+
+            tItemP project = getItemP(projectPos, committee.projectList);
+            project.numVotes++;
+            committee.validVotes++;
+            updateItemP(project, projectPos, &committee.projectList);
+
+            printf("* Vote: committee %s project %s category %s numvotes %d\n",
+                committeeName,
                 projectName,
-                committeeName
+                project.projectEco ? "eco" : "non-eco",
+                project.numVotes
             );
-            return;
         }
 
-        tItemP project = getItemP(project_pos, committee.projectList);
-        project.numVotes++;
-        committee.validVotes++;
-
-        updateItemP(project, project_pos, &committee.projectList);
-        updateItemC(committee, committee_pos, committeeList);
-
-        printf("* Vote: committee %s project %s category %s numvotes %d\n",
-            committeeName,
-            projectName,
-            project.projectEco ? "eco" : "non-eco",
-            project.numVotes
-        );
+        /* Actualizar el comité, independientemente de como se contabilizó el voto */
+        updateItemC(committee, committeePos, committeeList);
 
     } else printf("+ Error: Vote not possible\n");
 }

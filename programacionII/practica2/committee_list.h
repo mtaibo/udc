@@ -122,7 +122,9 @@ bool insertItemC(tItemC d, tListC* L);
  *   - p: Posición del elemento que se quiere eliminar.
  *   - L: Puntero a la lista cuyo elemento se quiere eliminar.
  * Salidas: La lista con el elemento en la posición indicada eliminado.
- * Precondiciones: La posición indicada es una posición válida dentro de la lista.
+ * Precondiciones: 
+ *   - La posición indicada es una posición válida dentro de la lista.
+ *   - El comité a eliminar tiene una lista de proyectos vacía.
  * Postcondiciones: El orden de los elementos de la lista puede verse modificado, y la lista verá reducido su tamaño.
  */
 

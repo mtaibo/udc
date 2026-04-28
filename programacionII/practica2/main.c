@@ -18,18 +18,26 @@
 /* Objetivo: Calcular un porcentaje a partir de dos enteros.
  * Entradas:
  *   - part: Número de casos sobre los que calcular el porcentaje.
- *   - int: Número total de casos.
+ *   - total: Número total de casos.
  * Salida: El porcentaje en un número tipo float.
  * Precondiciones: Las entradas son números int válidos.
  * Postcondiciones: Ninguna postcondición.
- * Categoría: Observador.
- * Cabecera: CalculatePercentage (int, int) -> float
  */
 
 float calculatePercentage(int part, int total) {
     return (total > 0 ? part / (float) total * 100 : 0.0);
 }
 
+
+/* Objetivo: Incorporar el comité con el nombre y el número de evaluadores indicado a la lista.
+ * Entradas:
+ *   - committeeList: Puntero a la lista de comités.
+ *   - committeeName: Nombre del nuevo comité a añadir.
+ *   - totalEvaluators: Número de evaluadores del nuevo comité a añadir.
+ * Salida: La lista de comités con el nuevo comité indicado.
+ * Precondiciones: La lista debe estar inicializada.
+ * Postcondiciones: El nuevo comité tendra los votos válidos y nulos a 0.
+ */
 
 void create(tListC* committeeList, char* committeeName, char* totalEvaluators) {
 
@@ -59,6 +67,17 @@ void create(tListC* committeeList, char* committeeName, char* totalEvaluators) {
     return;
 }
 
+
+/* Objetivo: Dar de alta un nuevo proyecto en el comité indicado.
+ * Entradas:
+ *   - committeeList: Puntero a la lista de comités.
+ *   - committeeName: Nombre del comité donde se dará de alta el nuevo proyecto.
+ *   - projectName: Nombre del nuevo proyecto a dar de alta.
+ *   - projectEco: Categoría del nuevo proyecto a dar de alta.
+ * Salida: La lista de comités con el comité indicado modificado con un nuevo proyecto.
+ * Precondiciones: La lista debe estar inicializada.
+ * Postcondiciones: El nuevo proyecto tendrá 0 votos.
+ */
 
 void new(tListC* committeeList, char* committeeName, char* projectName, char* projectEco) {
 
@@ -92,6 +111,14 @@ void new(tListC* committeeList, char* committeeName, char* projectName, char* pr
     }
 }
 
+
+/* Objetivo: Mostrar estadística de voto y participación.
+ * Entradas:
+ *   - committeeList: Lista de comités.
+ * Salida: Mensajes indicando estadísticas de los votos y la participación en los proyectos y comités.
+ * Precondiciones: La lista debe estar inicializada.
+ * Postcondiciones: Ninguna postcondición.
+ */
 
 void stats(tListC committeeList) {
 
@@ -133,6 +160,16 @@ void stats(tListC committeeList) {
     } else printf("+ Error: Stats not possible\n");
 }
 
+
+/* Objetivo: Añadir un voto al proyecto indicado del comité indicado.
+ * Entradas:
+ *   - committeeList: Puntero a la lista de comités.
+ *   - committeeName: Nombre del comité donde se encuentra el proyecto que se quiere votar.
+ *   - projectName: Nombre del proyecto al cuál se le quiere sumar un voto.
+ * Salida: El proyecto indicado del comité indicado verá su número de votos incrementado en 1.
+ * Precondiciones: La lista debe estar inicializada.
+ * Postcondiciones: Si no se encuentra el proyecto dentro del comité indicado, el voto se contabilizará como nulo.
+ */
 
 void vote(tListC* committeeList, char* committeeName, char* projectName) {
 
@@ -178,6 +215,15 @@ void vote(tListC* committeeList, char* committeeName, char* projectName) {
 }
 
 
+/* Objetivo: Descalificar un proyecto de todos los comités.
+ * Entradas:
+ *   - committeeList: Puntero a la lista de comités.
+ *   - projectName: Nombre del/los proyectos que se quieren descalificar.
+ * Salida: Todos los comités donde se encuentre el proyecto indicado, tendrán ese proyecto eliminado de su lista.
+ * Precondiciones: La lista debe estar inicializada.
+ * Postcondiciones: Los votos de los proyectos eliminados serán contabilizados como nulos.
+ */
+
 void disqualify(tListC* committeeList, char* projectName) {
 
     if (!isEmptyListC(*committeeList)) {
@@ -206,6 +252,14 @@ void disqualify(tListC* committeeList, char* projectName) {
     } else printf("+ Error: Disqualify not possible\n");
 }
 
+
+/* Objetivo: Eliminar los comités con 0 votos válidos.
+ * Entradas:
+ *   - committeeList: Puntero a la lista de comités.
+ * Salida: La lista de comités con todos los comités con 0 votos válidos elminados.
+ * Precondiciones: La lista debe estar inicializada.
+ * Postcondiciones: Ninguna postcondición.
+ */
 
 void removeInactiveCommittees(tListC* committeeList) {
 
@@ -237,6 +291,14 @@ void removeInactiveCommittees(tListC* committeeList) {
     if (!removed) printf("+ Error: Remove not possible\n");
 }
 
+
+/* Objetivo: Mostrar los proyectos con más votos de cada categoría en cada comité evaluador.
+ * Entradas:
+ *   - committeeList: Puntero a la lista de comités.
+ * Salida: Mensajes indicando los ganadores de cada categoría por cada comité.
+ * Precondiciones: La lista debe estar inicializada.
+ * Postcondiciones: Ninguna postcondición.
+ */
 
 void winners(tListC* committeeList) {
 

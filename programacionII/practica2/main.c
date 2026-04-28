@@ -389,5 +389,13 @@ int main(int nargs, char **args) {
 
     readTasks(file_name, &list);
 
+    /* Finalización del programa, liberación de toda la memoria */
+    while (!isEmptyListC(committeeList)) {
+        tItemC committee = getItemC(firstC(committeeList), committeeList);
+        while (!isEmptyListP(committee.projectList)) {
+            deleteAtPositionP(firstP(committee.projectList), &committee.projectList);
+        } deleteAtPositionC(firstC(committeeList), &committeeList);
+    }
+
     return 0;
 }

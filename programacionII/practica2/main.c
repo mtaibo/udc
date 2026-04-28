@@ -300,15 +300,15 @@ void removeInactiveCommittees(tListC* committeeList) {
  * Postcondiciones: Ninguna postcondición.
  */
 
-void winners(tListC* committeeList) {
+void winners(tListC committeeList) {
 
-    if (!isEmptyListC(*committeeList)) {
+    if (!isEmptyListC(committeeList)) {
 
         /* Bucle para recorrer los distintos comités */
-        for (tPosC p = firstC(*committeeList); p != NULLC; p = nextC(p, *committeeList)) {
+        for (tPosC p = firstC(committeeList); p != NULLC; p = nextC(p, committeeList)) {
 
             /* Obtención de datos relevantes */            
-            tItemC committee = getItemC(p, *committeeList);
+            tItemC committee = getItemC(p, committeeList);
             tListP projectList = committee.projectList;
 
             /* Declaración de las variables para almacenar los ganadores */
@@ -359,44 +359,44 @@ void winners(tListC* committeeList) {
 }
 
 
-void processCommand(tListC* list, char *commandNumber, char command, char *param1,char *param2, char *param3) {
+void processCommand(tListC* committeeList, char *commandNumber, char command, char *param1,char *param2, char *param3) {
 
     printf("********************\n");
 
     switch (command) {
         case 'C':
             printf("%s %c: committee %s totalevaluators %s\n", commandNumber, command, param1, param2);
-            create(list, param1, param2);
+            create(committeeList, param1, param2);
             break;        
 
         case 'N':
             printf("%s %c: committee %s project %s category %s\n", commandNumber, command, param1, param2, param3);
-            new(list, param1, param2, param3);
+            new(committeeList, param1, param2, param3);
             break;
 
         case 'S':
             printf("%s %c:\n", commandNumber, command);
-            stats(*list);
+            stats(*committeeList);
             break;
 
         case 'V':
             printf("%s %c: committee %s project %s\n", commandNumber, command, param1, param2);
-            vote(list, param1, param2);
+            vote(committeeList, param1, param2);
             break;
 
         case 'D':
             printf("%s %c: project %s\n", commandNumber, command, param1);
-            disqualify(list, param1);
+            disqualify(committeeList, param1);
             break;
 
         case 'R':
             printf("%s %c:\n", commandNumber, command);
-            removeInactiveCommittees(list);
+            removeInactiveCommittees(committeeList);
             break;
 
         case 'W':
             printf("%s %c:\n", commandNumber, command);
-            winners(list);
+            winners(*committeeList);
             break;
 
         default:
@@ -404,7 +404,7 @@ void processCommand(tListC* list, char *commandNumber, char command, char *param
     }
 }
 
-void readTasks(char *filename, tListC* list) {
+void readTasks(char *filename, tListC* committeeList) {
     FILE *f = NULL;
     char *commandNumber, *command, *param1, *param2, *param3;
     const char delimiters[] = " \n\r";
@@ -421,7 +421,7 @@ void readTasks(char *filename, tListC* list) {
             param2 = strtok(NULL, delimiters);
             param3 = strtok(NULL, delimiters);
 
-            processCommand(list, commandNumber, command[0], param1, param2, param3);
+            processCommand(committeeList, commandNumber, command[0], param1, param2, param3);
         }
 
         fclose(f);
@@ -436,10 +436,10 @@ int main(int nargs, char **args) {
 
     char *file_name = "create.txt";
 
-    tListC list; // list: Variable de la lista de comités
+    tListC committeeList; // list: Variable de la lista de comités
 
     /* Inicialización de la lista */
-    createEmptyListC(&list);
+    createEmptyListC(&committeeList);
 
     if (nargs > 1) {
         file_name = args[1];
@@ -449,7 +449,7 @@ int main(int nargs, char **args) {
         #endif
     }
 
-    readTasks(file_name, &list);
+    readTasks(file_name, &committeeList);
 
     /* Finalización del programa, liberación de toda la memoria */
     while (!isEmptyListC(committeeList)) {

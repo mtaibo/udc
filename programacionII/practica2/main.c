@@ -20,7 +20,7 @@
  *   - part: Número de casos sobre los que calcular el porcentaje.
  *   - total: Número total de casos.
  * Salida: El porcentaje en un número tipo float.
- * Precondiciones: Las entradas son números int válidos.
+ * Precondiciones: Ninguna precondición.
  * Postcondiciones: Ninguna postcondición.
  */
 

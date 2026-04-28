@@ -108,10 +108,10 @@ void new(tListC* committeeList, char* committeeName, char* projectName, char* pr
 }
 
 
-/* Objetivo: Mostrar estadística de voto y participación.
+/* Objetivo: Mostrar estadísticas de voto y participación para cada comité y sus proyectos.
  * Entradas:
  *   - committeeList: Lista de comités.
- * Salida: Mensajes indicando estadísticas de los votos y la participación en los proyectos y comités.
+ * Salida: Mensajes indicando estadísticas de los votos y la participación en los comités y sus proyectos.
  * Precondiciones: La lista debe estar inicializada.
  * Postcondiciones: Ninguna postcondición.
  */
@@ -120,30 +120,30 @@ void stats(tListC committeeList) {
 
     if (!isEmptyListC(committeeList)) {
 
+        /* Bucle para recorrer los comités */
         for (tPosC p = firstC(committeeList); p != NULLC; p = nextC(p, committeeList)) {
 
             tItemC committee = getItemC(p, committeeList);
-            tListP projectList = committee.projectList;
-
             printf("Committee %s\n", committee.committeeName);
 
-            if (!isEmptyListP(projectList)) {
+            if (!isEmptyListP(committee.projectList)) {
 
-                for (tPosP q = firstP(projectList); q != NULLP; q = nextP(q, projectList)) {
+                /* Bucle para recorrer los proyectos de un comité */
+                for (tPosP q = firstP(committee.projectList); q != NULLP; q = nextP(q, committee.projectList)) {
 
-                    tItemP project = getItemP(q, projectList);
-
+                    /* Obtención del proyecto e impresión de sus propiedades y estadísticas */
+                    tItemP project = getItemP(q, committee.projectList);
                     printf("Project %s category %s numvotes %d (%.2f%%)\n",
                         project.projectName,
                         project.projectEco ? "eco" : "non-eco",
                         project.numVotes,
                         calculatePercentage(project.numVotes, committee.validVotes)
                     );
-
                 }
 
             } else printf("No projects\n");
 
+            /* Impresión de las estadísticas generales del comité */
             printf("Nullvotes %d\n", committee.nullVotes);
             printf("Participation: %d votes from %d evaluators (%.2f%%)\n\n", 
                 committee.validVotes + committee.nullVotes, 
@@ -151,7 +151,6 @@ void stats(tListC committeeList) {
                 calculatePercentage(committee.validVotes + committee.nullVotes, committee.totalEvaluators)
             );
         }
-
 
     } else printf("+ Error: Stats not possible\n");
 }

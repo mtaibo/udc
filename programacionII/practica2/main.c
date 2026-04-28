@@ -46,18 +46,16 @@ void create(tListC* committeeList, char* committeeName, char* totalEvaluators) {
 
     } else {
 
-        /* Creación del nuevo comité y asignación de sus valores */
         tItemC newCommittee;
 
+        /* Asignación de los valores iniciales al nuevo comité */
         strcpy(newCommittee.committeeName, committeeName);
-
         newCommittee.totalEvaluators = atoi(totalEvaluators);
         newCommittee.validVotes = 0;
         newCommittee.nullVotes = 0;
-
         createEmptyListP(&newCommittee.projectList);
 
-        /* Inserción del nuevo item e impresión del mensaje de satisfacción o error */
+        /* Inserción del nuevo comité en la lista e impresión del mensaje de satisfacción o error */
         if (!insertItemC(newCommittee, committeeList)) printf("+ Error: Create not possible\n");
         else printf("* Create: committee %s totalevaluators %s\n", committeeName, totalEvaluators);
     }
@@ -80,30 +78,32 @@ void new(tListC* committeeList, char* committeeName, char* projectName, char* pr
     tPosC committeePos = findItemC(committeeName, *committeeList);
 
     if (committeePos == NULLC) {
-        printf("+ Error: New not possible\n");
-        return;
-    }
+        printf("+ Error: New not possible\n"); // Validación de la existencia del comité
 
-    tItemC committee = getItemC(committeePos, *committeeList);
+    } else {
 
-    /* Prevención contra elementos duplicados, y comprobando si la lista
-     * esta vacía para cumplir la precondición de findItemP */
-    if (!isEmptyListP(committee.projectList) && (findItemP(projectName, committee.projectList) != NULLP)) {
-        printf("+ Error: New not possible\n");
-        return;
-    }
+        tItemC committee = getItemC(committeePos, *committeeList);
 
-    /* Creación del nuevo item y asignación de sus valores */
-    tItemP newItem;
+        if (findItemP(projectName, committee.projectList) != NULLP) { // Prevención contra proyectos duplicados
+            printf("+ Error: New not possible\n");
 
-    strcpy(newItem.projectName, projectName);
-    newItem.numVotes = 0;
-    newItem.projectEco = strcmp(projectEco, "eco") == 0;
+        } else {
 
-    if (!insertItemP(newItem, &committee.projectList)) printf("+ Error: New not possible\n");
-    else { 
-        updateItemC(committee, committeePos, committeeList);
-        printf("* New: committee %s project %s category %s\n", committeeName, projectName, projectEco);
+            tItemP newItem;
+
+            /* Asignación de los valores iniciales al nuevo proyecto */
+            strcpy(newItem.projectName, projectName);
+            newItem.numVotes = 0;
+            newItem.projectEco = strcmp(projectEco, "eco") == 0;
+
+            /* Inserción del nuevo proyecto en la lista e impresión del mensaje de satisfacción o error */
+            if (!insertItemP(newItem, &committee.projectList)) {
+                printf("+ Error: New not possible\n");
+            } else { 
+                updateItemC(committee, committeePos, committeeList);
+                printf("* New: committee %s project %s category %s\n", committeeName, projectName, projectEco);
+            }
+        }
     }
 }
 

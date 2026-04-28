@@ -41,24 +41,24 @@ float calculatePercentage(int part, int total) {
 
 void create(tListC* committeeList, char* committeeName, char* totalEvaluators) {
 
-    if (findItemC(committeeName, *committeeList) != NULLC) {  // Prevención contra elementos duplicados
+    if (findItemC(committeeName, *committeeList) != NULLC) {  // Prevención contra comités duplicados
         printf("+ Error: Create not possible\n");
 
     } else {
 
-        /* Creación del nuevo item y asignación de sus valores */
-        tItemC newItem;
+        /* Creación del nuevo comité y asignación de sus valores */
+        tItemC newCommittee;
 
-        strcpy(newItem.committeeName, committeeName);
+        strcpy(newCommittee.committeeName, committeeName);
 
-        newItem.totalEvaluators = atoi(totalEvaluators);
-        newItem.validVotes = 0;
-        newItem.nullVotes = 0;
+        newCommittee.totalEvaluators = atoi(totalEvaluators);
+        newCommittee.validVotes = 0;
+        newCommittee.nullVotes = 0;
 
-        createEmptyListP(&newItem.projectList);
+        createEmptyListP(&newCommittee.projectList);
 
         /* Inserción del nuevo item e impresión del mensaje de satisfacción o error */
-        if (!insertItemC(newItem, committeeList)) printf("+ Error: Create not possible\n");
+        if (!insertItemC(newCommittee, committeeList)) printf("+ Error: Create not possible\n");
         else printf("* Create: committee %s totalevaluators %s\n", committeeName, totalEvaluators);
     }
 }

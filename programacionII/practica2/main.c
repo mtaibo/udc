@@ -220,6 +220,11 @@ void removeInactiveCommittees(tListC* committeeList) {
 
             if (committee.validVotes == 0) {
 
+                /* Antes de borrar un comité, se debe librerar la memoria de la lista que contiene */
+                while (!isEmptyListP(committee.projectList)) {
+                    deleteAtPositionP(firstP(committee.projectList), &committee.projectList);
+                }
+
                 printf("* Remove: committee %s\n", committee.committeeName);
                 deleteAtPositionC(p, committeeList);
                 

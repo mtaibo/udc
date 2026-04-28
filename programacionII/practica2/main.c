@@ -41,10 +41,7 @@ float calculatePercentage(int part, int total) {
 
 void create(tListC* committeeList, char* committeeName, char* totalEvaluators) {
 
-    if (findItemC(committeeName, *committeeList) != NULLC) {  // Prevención contra comités duplicados
-        printf("+ Error: Create not possible\n");
-
-    } else {
+    if (findItemC(committeeName, *committeeList) == NULLC) {  // Prevención contra comités duplicados
 
         tItemC newCommittee;
 
@@ -58,7 +55,8 @@ void create(tListC* committeeList, char* committeeName, char* totalEvaluators) {
         /* Inserción del nuevo comité en la lista e impresión del mensaje de satisfacción o error */
         if (!insertItemC(newCommittee, committeeList)) printf("+ Error: Create not possible\n");
         else printf("* Create: committee %s totalevaluators %s\n", committeeName, totalEvaluators);
-    }
+
+    } else printf("+ Error: Create not possible\n");
 }
 
 
@@ -77,17 +75,11 @@ void new(tListC* committeeList, char* committeeName, char* projectName, char* pr
 
     tPosC committeePos = findItemC(committeeName, *committeeList);
 
-    if (committeePos == NULLC) { // Validación de la existencia del comité
-        printf("+ Error: New not possible\n");
-
-    } else {
+    if (committeePos != NULLC) { // Validación de la existencia del comité
 
         tItemC committee = getItemC(committeePos, *committeeList);
 
-        if (findItemP(projectName, committee.projectList) != NULLP) { // Prevención contra proyectos duplicados
-            printf("+ Error: New not possible\n");
-
-        } else {
+        if (findItemP(projectName, committee.projectList) == NULLP) { // Prevención contra proyectos duplicados
 
             tItemP newItem;
 
@@ -103,8 +95,10 @@ void new(tListC* committeeList, char* committeeName, char* projectName, char* pr
                 updateItemC(committee, committeePos, committeeList);
                 printf("* New: committee %s project %s category %s\n", committeeName, projectName, projectEco);
             }
-        }
-    }
+
+        } else printf("+ Error: New not possible\n");
+
+    } else printf("+ Error: New not possible\n");
 }
 
 
@@ -179,7 +173,7 @@ void vote(tListC* committeeList, char* committeeName, char* projectName) {
             committee.nullVotes++;
             printf("+ Error: Vote not possible. Project %s not found in committee %s. NULLVOTE\n", projectName, committeeName);
 
-        } else { // Contabilización del voto en el proyecto si es encontrado
+        } else { // Contabilización del voto como válido si es encontrado
 
             tItemP project = getItemP(projectPos, committee.projectList);
             project.numVotes++;

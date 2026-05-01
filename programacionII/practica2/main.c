@@ -244,7 +244,7 @@ void disqualify(tListC* committeeList, char* projectName) {
 
 void removeInactiveCommittees(tListC* committeeList) {
 
-    bool removed = false;
+    bool removed = false; // removed: Variable para detectar si se ha eliminado algún elemento o no.
 
     if (!isEmptyListC(*committeeList)) {
 
@@ -261,7 +261,7 @@ void removeInactiveCommittees(tListC* committeeList) {
                 }
 
                 printf("* Remove: committee %s\n", committee.committeeName);
-                deleteAtPositionC(p, committeeList);
+                deleteAtPositionC(p, committeeList); // En lista ordenada, cuando eliminas p, p apuntará al siguiente elemento.
                 
                 removed = true;
 
@@ -285,10 +285,9 @@ void winners(tListC committeeList) {
 
     if (!isEmptyListC(committeeList)) {
 
-        /* Bucle para recorrer los distintos comités */
+        /* Bucle para recorrer los comités */
         for (tPosC p = firstC(committeeList); p != NULLC; p = nextC(p, committeeList)) {
 
-            /* Obtención de datos relevantes */            
             tItemC committee = getItemC(p, committeeList);
             tListP projectList = committee.projectList;
 
@@ -300,12 +299,12 @@ void winners(tListC committeeList) {
             bool isAnyEcoWinner = false;
             bool isAnyNonEcoWinner = false;
 
-            /* Búsqueda de ganadores con un bucle sobre la lista de proyectos del comité*/
+            /* Bucle sobre la lista de proyectos de comité para buscar los ganadores */
             for (tPosP q = firstP(projectList); q != NULLP; q = nextP(q, projectList)) {
 
                 tItemP project = getItemP(q, projectList);
 
-                /* Procesamiento de los criterios para ganar en los proyectos eco */
+                /* Comprobar si el proyecto actual es eco y debe ser ganador */
                 if (project.projectEco) {
 
                     if (project.numVotes == ecoWinner.numVotes) isAnyEcoWinner = false;
@@ -314,7 +313,7 @@ void winners(tListC committeeList) {
                         isAnyEcoWinner = true;
                     }
 
-                /* Procesamiento de los criterios para ganar en los proyectos no eco */
+                /* Comprobar si el proyecto actual es no-eco y debe ser ganador */
                 } else {
 
                     if (project.numVotes == nonEcoWinner.numVotes) isAnyNonEcoWinner = false;

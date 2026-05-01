@@ -416,7 +416,7 @@ int main(int nargs, char **args) {
 
     char *file_name = "create.txt";
 
-    tListC committeeList; // list: Variable de la lista de comités
+    tListC committeeList; // committeeList: Variable con la lista de comités
 
     /* Inicialización de la lista */
     createEmptyListC(&committeeList);

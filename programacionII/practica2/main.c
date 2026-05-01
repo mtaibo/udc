@@ -249,7 +249,7 @@ void removeInactiveCommittees(tListC* committeeList) {
     if (!isEmptyListC(*committeeList)) {
 
         tPosC p = firstC(*committeeList);
-        while (p != NULLC) {
+        while (p != NULLC) { // Bucle while y no for para controlar manualmente cuando avanzar por la lista.
 
             tItemC committee = getItemC(p, *committeeList);
 

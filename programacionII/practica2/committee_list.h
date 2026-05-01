@@ -79,22 +79,22 @@ tPosC firstC(tListC L);
 
 tPosC lastC(tListC L);
 
-/* Objetivo: Devuelve la posición siguiente en la lista a una indicada, o LNULL si no hay posición siguiente.
+/* Objetivo: Devuelve la posición siguiente en la lista a una indicada, o NULLC si no hay posición siguiente.
  * Entradas:
  *   - p: Posición inidicada, de la que se quiere obtener la siguiente posición.
  *   - L: Lista sobre la que se encuentran la posición indicada y la siguiente solicitada.
- * Salida: Posición del siguiente elemento a la posición indicada, o LNULL si no hay posición siguiente.
+ * Salida: Posición del siguiente elemento a la posición indicada, o NULLC si no hay posición siguiente.
  * Precondiciones: La posición indicada es una posición válida dentro de la lista.
  * Postcondiciones: Ninguna postcondición.
  */
 
 tPosC nextC(tPosC p, tListC L);
 
-/* Objetivo: Devuelve la posición anterior a la posición indicada, o LNULL si no hay posición anterior.
+/* Objetivo: Devuelve la posición anterior a la posición indicada, o NULLC si no hay posición anterior.
  * Entradas:
  *   - p: Posición indicada, de la que se quiere obtener la anterior posición.
  *   - L: Lista sobre la que se encuentran la posición indicada y la anterior solicitada.
- * Salida: Posición del anterior elemento a la posición indicada, o LNULL si no hay posición anterior.
+ * Salida: Posición del anterior elemento a la posición indicada, o NULLC si no hay posición anterior.
  * Precondiciones: La posición indicada es una posición válida dentro de la lista.
  * Postcondiciones: Ninguna postcondición.
  */
@@ -103,7 +103,7 @@ tPosC previousC(tPosC p, tListC L);
 
 /* MODIFICACIÓN DE LISTAS */
 
-/* Objetivo: Insertar un elemento en la lista dada con el contenido aportado en la posición indicada. Si la posición es LNULL, se insertará al final.
+/* Objetivo: Insertar un elemento en la lista dada con el contenido aportado en la posición indicada. Si la posición es NULLC, se insertará al final.
  * Entradas:
  *   - d: Contenido del elemento a insertar.
  *   - p: Posición donde se quiere insertar el elemento en la lista.
@@ -160,7 +160,7 @@ tItemC getItemC(tPosC p, tListC L);
  * Entradas:
  *   - n: Nombre del proyecto que se busca en la lista.
  *   - L: Lista donde se busca ese proyecto.
- * Salida: Posición en la lista del primer proyecto cuyo nombre coincide con el indicado (LNULL si no existe).
+ * Salida: Posición en la lista del primer proyecto cuyo nombre coincide con el indicado (NULLC si no existe).
  * Precondiciones: La lista debe estar inicializada.
  * Postcondiciones: Ninguna postcondición.
  */

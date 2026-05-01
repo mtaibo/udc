@@ -76,11 +76,11 @@ tPosP firstP(tListP L);
 
 tPosP lastP(tListP L);
 
-/* Objetivo: Devuelve la posición siguiente en la lista a una indicada, o LNULL si no hay posición siguiente.
+/* Objetivo: Devuelve la posición siguiente en la lista a una indicada, o NULLP si no hay posición siguiente.
  * Entradas:
  *   - p: Posición inidicada, de la que se quiere obtener la siguiente posición.
  *   - L: Lista sobre la que se encuentran la posición indicada y la siguiente solicitada.
- * Salida: Posición del siguiente elemento a la posición indicada, o LNULL si no hay posición siguiente.
+ * Salida: Posición del siguiente elemento a la posición indicada, o NULLP si no hay posición siguiente.
  * Precondiciones: La posición indicada es una posición válida dentro de la lista.
  * Postcondiciones: Ninguna postcondición.
  */

@@ -1,0 +1,116 @@
+/*
+ * TITLE: PROGRAMMING II LABS
+ * SUBTITLE: Practical 2
+ * AUTHOR 1: Miguel Taibo Pérez LOGIN 1: miguel.taibo.perez@udc.es
+ * AUTHOR 2: Marcos Estévez Besada LOGIN 2: marcos.estevez1@udc.es
+ * GROUP: 2.1
+ * DATE: 10 / 04 / 26
+ */
+
+#include "project_list.h"
+
+#include <string.h> /* Librería que incluye el strcmp() para comparar nombres de proyectos. */
+#include <stdlib.h> /* Librería que incluye el malloc() para reservar memoria para nuevos nodos de la lista. */
+#include <stdio.h>
+
+
+void createEmptyListP(tListP* L) {
+    *L = NULLP;
+}
+
+bool isEmptyListP(tListP L) {
+    return L == NULLP;
+}
+
+tPosP firstP(tListP L) {
+    return L;
+}
+
+tPosP nextP(tPosP p, tListP L) {
+    return p->next;
+}
+
+tPosP lastP(tListP L) {
+    tPosP p; // p: Variable para recorrer las posiciones de la lista.
+    for (p = firstP(L); nextP(p, L) != NULLP ; p = nextP(p, L)); // Bucle que recorre la lista con p hasta el último elemento.
+    return p;
+}
+
+tPosP previousP(tPosP p, tListP L) {
+    tPosP q; // q: Variable para recorrer las posiciones de la lista.
+    if (p == L) return NULLP; // El primer elemento no tiene elemento anterior.
+    for (q = firstP(L); nextP(q, L) != p; q = nextP(q, L)); // Bucle que recorre la lista con q hasta que el siguiente elemento sea p.
+    return q;
+}
+
+tPosP findItemP(tProjectName n, tListP L) {
+    tPosP p; // p: Variable para recorrer las posiciones de la lista y almacenar la posición final.
+
+    // Bucle que recorre la lista con p hasta que el nombre buscado esté alfabéticamente por debajo del actual.
+    for (p = firstP(L); (p != NULLP) && (strcmp(getItemP(p, L).projectName, n) < 0); p = nextP(p, L)); 
+
+    // Comprobación final para determinar el motivo de la parada del bucle y devolver la posición consecuente.
+    if (p != NULLP && strcmp(getItemP(p, L).projectName, n) == 0) return p;
+    return NULLP;
+}
+
+tItemP getItemP(tPosP p, tListP L) {
+    return p->data;
+}
+
+void updateItemP(tItemP d, tPosP p, tListP* L) {
+    p->data = d;
+}
+
+void deleteAtPositionP(tPosP p, tListP *L) {
+
+    tPosP q; // q : Posición auxiliar para eliminar items.
+    if (p == *L) *L = nextP(p, *L); // Eliminamos el primer nodo
+    else if (nextP(p, *L) == NULLP) {  // Eliminar último nodo
+
+        for (q = *L; nextP(q, *L) != p; q = nextP(q, *L));
+        q->next = NULLP;
+
+    } else {  // Eliminar nodo intermedio
+        q = nextP(p, *L); // q : Puntero al elemento que se va a copiar en p y se eliminará.
+        p->next = nextP(q, *L);
+        updateItemP(getItemP(q, *L), p, L);
+
+        p = q;  // Para que free(p) elimine el nodo correcto
+    }
+
+    free(p);
+}
+
+bool insertItemP(tItemP d, tListP *L) {
+
+    tPosP p, q; // p: Variable para recorrer las posiciones de la lista, q: Variable donde se introduce el nuevo elemento.
+
+    // Si no se ha podido crear un nuevo nodo de la lista,
+    // no se podrá insertar un nuevo elemento
+    if ((q = malloc(sizeof(struct tNode))) == NULL ) return false;
+
+    q->data = d;
+    q->next = NULLP;
+
+    if (isEmptyListP(*L)) *L = q; // Inserción en una lista vacía
+
+    else { // Inserción en una lista no vacía
+
+        // Buscamos la posición donde se debe insertar
+        for (p = firstP(*L); (nextP(p, *L) != NULLP) && (strcmp(getItemP(p, *L).projectName, d.projectName) < 0); p = nextP(p, *L)); 
+
+        if (strcmp(getItemP(p, *L).projectName, d.projectName) < 0) p -> next = q; // Inserción en el final de la lista
+
+        else { // Inserción al inicio o en posición intermedia
+
+            q->data = getItemP(p, *L);
+            q->next = nextP(p, *L);
+            updateItemP(d, p, L);
+
+            p->next = q;
+        }
+    }
+        
+    return true;
+}
